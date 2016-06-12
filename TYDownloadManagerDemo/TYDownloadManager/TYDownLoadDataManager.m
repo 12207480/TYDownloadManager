@@ -54,8 +54,11 @@
 // 下载seesion会话
 @property (nonatomic, strong) NSURLSession *session;
 // 下载模型字典 key = url
-@property (nonatomic, strong) NSMutableDictionary *downloadingModels;
+@property (nonatomic, strong) NSMutableDictionary *downloadingModelDic;
+// 下载中的模型
 @property (nonatomic, strong) NSMutableArray *waitingDownloadModels;
+// 等待中的模型
+@property (nonatomic, strong) NSMutableArray *downloadingModels;
 // 回调代理的队列
 @property (strong, nonatomic) NSOperationQueue *queue;
 
@@ -80,7 +83,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        _maxDownloadCount = 3;
+        _maxDownloadCount = 1;
     }
     return self;
 }
@@ -105,7 +108,7 @@
 {
     if (!_queue) {
         _queue = [[NSOperationQueue alloc]init];
-        _queue.maxConcurrentOperationCount = 2;
+        //_queue.maxConcurrentOperationCount = 2;
     }
     return _queue;
 }
@@ -123,12 +126,12 @@
     return [downloadModel.downloadDirectory stringByAppendingPathComponent:@"downloadsFileSize.plist"];
 }
 
-- (NSMutableDictionary *)downloadingModels
+- (NSMutableDictionary *)downloadingModelDic
 {
-    if (!_downloadingModels) {
-        _downloadingModels = [NSMutableDictionary dictionary];
+    if (!_downloadingModelDic) {
+        _downloadingModelDic = [NSMutableDictionary dictionary];
     }
-    return _downloadingModels;
+    return _downloadingModelDic;
 }
 
 - (NSMutableArray *)waitingDownloadModels
@@ -137,6 +140,14 @@
         _waitingDownloadModels = [NSMutableArray array];
     }
     return _waitingDownloadModels;
+}
+
+- (NSMutableArray *)downloadingModels
+{
+    if (!_downloadingModels) {
+        _downloadingModels = [NSMutableArray array];
+    }
+    return _downloadingModels;
 }
 
 #pragma mark - downlaod
@@ -174,11 +185,11 @@
     if ([self isDownloadCompletedWithDownloadModel:downloadModel]) {
         NSString *filePath = downloadModel.filePath;
         downloadModel.state = TYDownLoadStateCompleted;
-        if (downloadModel.stateBlock) {
-            dispatch_async(dispatch_get_main_queue(), ^(){
+        dispatch_async(dispatch_get_main_queue(), ^(){
+            if (downloadModel.stateBlock) {
                 downloadModel.stateBlock(TYDownLoadStateCompleted,filePath,nil);
-            });
-        }
+            }
+        });
         return;
     }
     
@@ -196,15 +207,15 @@
     if (!downloadModel) {
         return;
     }
-    if ([self downLoadingModelsCount] >= _maxDownloadCount ) {
+    if (self.downloadingModels.count >= _maxDownloadCount ) {
         if ([self.waitingDownloadModels indexOfObject:downloadModel] == NSNotFound) {
             [self.waitingDownloadModels addObject:downloadModel];
             downloadModel.state = TYDownLoadStateReadying;
-            if (downloadModel.stateBlock) {
-                dispatch_async(dispatch_get_main_queue(), ^(){
-                    downloadModel.stateBlock(TYDownLoadStateReadying,nil,nil);
-                });
-            }
+             dispatch_async(dispatch_get_main_queue(), ^(){
+                 if (downloadModel.stateBlock) {
+                     downloadModel.stateBlock(TYDownLoadStateReadying,nil,nil);
+                 }
+            });
         }
         return;
     }
@@ -232,10 +243,15 @@
         downloadModel.stream = [NSOutputStream outputStreamToFileAtPath:downloadModel.filePath append:YES];
         
         downloadModel.downloadDate = [NSDate date];
-        self.downloadingModels[downloadModel.downloadURL] = downloadModel;
+        self.downloadingModelDic[downloadModel.downloadURL] = downloadModel;
+    
         // 创建一个Data任务
         downloadModel.task = [session dataTaskWithRequest:request];
         downloadModel.task.taskDescription = URLString;
+    }
+    
+    if ([self.downloadingModels indexOfObject:downloadModel] == NSNotFound) {
+        [self.downloadingModels addObject:downloadModel];
     }
     
     [downloadModel.task resume];
@@ -247,22 +263,12 @@
 
 - (void)suspendWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
-    [downloadModel.task suspend];
-    downloadModel.state = TYDownLoadStateSuspended;
-    if (downloadModel.stateBlock) {
-        downloadModel.stateBlock(TYDownLoadStateSuspended,nil,nil);
-    }
-    // 清除任务
-    [self removeDownLoadingModelForURLString:downloadModel.downloadURL];
-    // 还有未下载的
-    if (self.waitingDownloadModels.count > 0) {
-        [self resumeWithDownloadModel:self.waitingDownloadModels.firstObject];
-    }
+    _manaualCancle = YES;
+    [downloadModel.task cancel];
 }
 
 - (void)cancleWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
-    _manaualCancle = YES;
     [downloadModel.task cancel];
 }
 
@@ -312,7 +318,7 @@
     if ([self.fileManager fileExistsAtPath:downloadDirectory]) {
         
         // 删除任务
-        for (TYDownLoadModel *downloadModel in [self.downloadingModels allValues]) {
+        for (TYDownLoadModel *downloadModel in [self.downloadingModelDic allValues]) {
             if ([downloadModel.downloadDirectory isEqualToString:downloadDirectory]) {
                 // 删除任务
                 downloadModel.task.taskDescription = nil;
@@ -336,10 +342,8 @@
 // 获取下载模型
 - (TYDownLoadModel *)downLoadingModelForURLString:(NSString *)URLString
 {
-    @synchronized (self.downloadingModels) {
-        TYDownLoadModel *downloadModel = [self.downloadingModels objectForKey:URLString];
-        return downloadModel;
-    }
+    TYDownLoadModel *downloadModel = [self.downloadingModelDic objectForKey:URLString];
+    return downloadModel;
 }
 
 // 是否已经下载
@@ -366,16 +370,7 @@
 
 - (void)removeDownLoadingModelForURLString:(NSString *)URLString
 {
-    @synchronized (self.downloadingModels) {
-        [self.downloadingModels removeObjectForKey:URLString];
-    }
-}
-
-- (NSInteger)downLoadingModelsCount
-{
-    @synchronized (self.downloadingModels) {
-        return self.downloadingModels.count;
-    }
+    [self.downloadingModelDic removeObjectForKey:URLString];
 }
 
 //  创建缓存目录文件
@@ -466,11 +461,11 @@
     int64_t remainingContentLength = downloadModel.progress.totalBytesExpectedToWrite - downloadModel.progress.totalBytesWritten;
     downloadModel.progress.remainingTime = (int)(remainingContentLength / downloadModel.progress.speed);
     
-    if (downloadModel.progress) {
-        dispatch_async(dispatch_get_main_queue(), ^(){
-            downloadModel.progressBlock(downloadModel.progress);
-        });
-    }
+    dispatch_async(dispatch_get_main_queue(), ^(){
+        if (downloadModel.progress) {
+                downloadModel.progressBlock(downloadModel.progress);
+        }
+    });
 }
 
 /**
@@ -481,34 +476,32 @@
     TYDownLoadModel *downloadModel = [self downLoadingModelForURLString:task.taskDescription];
     
     if (!downloadModel) {
-        
         return;
     }
-    
     
     if (_manaualCancle == YES) {
         _manaualCancle = NO;
         downloadModel.state = TYDownLoadStateSuspended;
-        if (downloadModel.stateBlock) {
-            dispatch_async(dispatch_get_main_queue(), ^(){
+        dispatch_async(dispatch_get_main_queue(), ^(){
+            if (downloadModel.stateBlock) {
                 downloadModel.stateBlock(TYDownLoadStateSuspended,nil,nil);
-            });
-        }
+            }
+        });
     }else if ([self isDownloadCompletedWithDownloadModel:downloadModel]) {
         downloadModel.state = TYDownLoadStateCompleted;
-        if (downloadModel.stateBlock) {
-            dispatch_async(dispatch_get_main_queue(), ^(){
+        dispatch_async(dispatch_get_main_queue(), ^(){
+            if (downloadModel.stateBlock) {
                 downloadModel.stateBlock(TYDownLoadStateCompleted,downloadModel.filePath,nil);
-            });
-        }
+            }
+        });
     }else if (error){
         // 下载失败
         downloadModel.state = TYDownLoadStateFailed;
-        if (downloadModel.stateBlock) {
-            dispatch_async(dispatch_get_main_queue(), ^(){
+        dispatch_async(dispatch_get_main_queue(), ^(){
+            if (downloadModel.stateBlock) {
                 downloadModel.stateBlock(TYDownLoadStateFailed,nil,error);
-            });
-        }
+            }
+        });
     }
     
     // 关闭流
@@ -516,9 +509,11 @@
     downloadModel.stream = nil;
     downloadModel.task = nil;
     
+    // 清除任务
+    [self removeDownLoadingModelForURLString:downloadModel.downloadURL];
+    
     dispatch_async(dispatch_get_main_queue(), ^(){
-        // 清除任务
-        [self removeDownLoadingModelForURLString:downloadModel.downloadURL];
+        [self.downloadingModels removeObject:downloadModel];
         // 还有未下载的
         if (self.waitingDownloadModels.count > 0) {
             [self resumeWithDownloadModel:self.waitingDownloadModels.firstObject];
