@@ -65,8 +65,6 @@
 // 回调代理的队列
 @property (strong, nonatomic) NSOperationQueue *queue;
 
-// 手动取消当做停止操作
-@property (nonatomic, assign) BOOL manaualCancle;
 @end
 
 @implementation TYDownLoadDataManager
@@ -188,11 +186,9 @@
     if ([self isDownloadCompletedWithDownloadModel:downloadModel]) {
         NSString *filePath = downloadModel.filePath;
         downloadModel.state = TYDownLoadStateCompleted;
-        dispatch_async(dispatch_get_main_queue(), ^(){
-            if (downloadModel.stateBlock) {
-                downloadModel.stateBlock(TYDownLoadStateCompleted,filePath,nil);
-            }
-        });
+        if (downloadModel.stateBlock) {
+            downloadModel.stateBlock(TYDownLoadStateCompleted,filePath,nil);
+        }
         return;
     }
     
@@ -216,12 +212,10 @@
     if (self.downloadingModels.count >= _maxDownloadCount ) {
         if ([self.waitingDownloadModels indexOfObject:downloadModel] == NSNotFound) {
             [self.waitingDownloadModels addObject:downloadModel];
-            downloadModel.state = TYDownLoadStateReadying;
-             dispatch_async(dispatch_get_main_queue(), ^(){
-                 if (downloadModel.stateBlock) {
-                     downloadModel.stateBlock(TYDownLoadStateReadying,nil,nil);
-                 }
-            });
+                downloadModel.state = TYDownLoadStateReadying;
+                if (downloadModel.stateBlock) {
+                    downloadModel.stateBlock(TYDownLoadStateReadying,nil,nil);
+                }
         }
         return;
     }
@@ -237,7 +231,7 @@
     if (!downloadModel.task || downloadModel.task.state == NSURLSessionTaskStateCanceling) {
         NSString *URLString = downloadModel.downloadURL;
         
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:self.queue];
+        //NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:self.queue];
         // 创建请求
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
         
@@ -252,7 +246,7 @@
         self.downloadingModelDic[downloadModel.downloadURL] = downloadModel;
     
         // 创建一个Data任务
-        downloadModel.task = [session dataTaskWithRequest:request];
+        downloadModel.task = [self.session dataTaskWithRequest:request];
         downloadModel.task.taskDescription = URLString;
     }
     
@@ -261,21 +255,25 @@
     }
     
     [downloadModel.task resume];
-    downloadModel.state = TYDownLoadStateRunning;
     if (downloadModel.stateBlock) {
+        downloadModel.state = TYDownLoadStateRunning;
         downloadModel.stateBlock(TYDownLoadStateRunning,nil,nil);
     }
 }
 
 - (void)suspendWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
-    _manaualCancle = YES;
-    [downloadModel.task cancel];
+    if (downloadModel.state != TYDownLoadStateSuspended) {
+        downloadModel.state = TYDownLoadStateSuspended;
+        [downloadModel.task cancel];
+    }
 }
 
 - (void)cancleWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
-    [downloadModel.task cancel];
+    if (downloadModel.state != TYDownLoadStateCompleted && downloadModel.state != TYDownLoadStateFailed){
+        [downloadModel.task cancel];
+    }
 }
 
 #pragma mark - delete file
@@ -485,25 +483,24 @@
         return;
     }
     
-    if (_manaualCancle == YES) {
-        _manaualCancle = NO;
-        downloadModel.state = TYDownLoadStateSuspended;
+    if (downloadModel.state == TYDownLoadStateSuspended) {
         dispatch_async(dispatch_get_main_queue(), ^(){
+            downloadModel.state = TYDownLoadStateSuspended;
             if (downloadModel.stateBlock) {
                 downloadModel.stateBlock(TYDownLoadStateSuspended,nil,nil);
             }
         });
     }else if ([self isDownloadCompletedWithDownloadModel:downloadModel]) {
-        downloadModel.state = TYDownLoadStateCompleted;
         dispatch_async(dispatch_get_main_queue(), ^(){
+            downloadModel.state = TYDownLoadStateCompleted;
             if (downloadModel.stateBlock) {
                 downloadModel.stateBlock(TYDownLoadStateCompleted,downloadModel.filePath,nil);
             }
         });
     }else if (error){
         // 下载失败
-        downloadModel.state = TYDownLoadStateFailed;
         dispatch_async(dispatch_get_main_queue(), ^(){
+            downloadModel.state = TYDownLoadStateFailed;
             if (downloadModel.stateBlock) {
                 downloadModel.stateBlock(TYDownLoadStateFailed,nil,error);
             }
