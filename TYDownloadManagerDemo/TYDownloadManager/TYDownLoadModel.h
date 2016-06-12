@@ -73,6 +73,7 @@ typedef void (^TYDownloadStateBlock)(TYDownLoadState state,NSString *filePath, N
  */
 @interface TYDownloadProgress : NSObject
 
+// 续传大小
 @property (nonatomic, assign, readonly) int64_t resumeBytesWritten;
 // 这次写入的数量
 @property (nonatomic, assign, readonly) int64_t bytesWritten;
@@ -84,6 +85,7 @@ typedef void (^TYDownloadStateBlock)(TYDownLoadState state,NSString *filePath, N
 @property (nonatomic, assign, readonly) float progress;
 // 下载速度
 @property (nonatomic, assign, readonly) float speed;
+// 下载剩余时间
 @property (nonatomic, assign, readonly) int remainingTime;
 
 
