@@ -108,7 +108,7 @@
 {
     if (!_queue) {
         _queue = [[NSOperationQueue alloc]init];
-        //_queue.maxConcurrentOperationCount = 2;
+        _queue.maxConcurrentOperationCount = 3;
     }
     return _queue;
 }
@@ -196,6 +196,9 @@
     // 验证是否存在
     if (downloadModel.task && downloadModel.task.state == NSURLSessionTaskStateRunning) {
         downloadModel.state = TYDownLoadStateRunning;
+        if ([self.downloadingModels indexOfObject:downloadModel] == NSNotFound) {
+            [self.downloadingModels addObject:downloadModel];
+        }
         return;
     }
     
