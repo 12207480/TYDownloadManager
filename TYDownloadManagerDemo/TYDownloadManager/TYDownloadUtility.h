@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  下载工具类
+ */
 @interface TYDownloadUtility : NSObject
 
 // 返回文件大小

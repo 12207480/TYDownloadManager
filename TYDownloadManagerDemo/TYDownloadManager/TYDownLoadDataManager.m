@@ -8,6 +8,9 @@
 
 #import "TYDownLoadDataManager.h"
 
+/**
+ *  下载模型
+ */
 @interface TYDownLoadModel ()
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>  task info
