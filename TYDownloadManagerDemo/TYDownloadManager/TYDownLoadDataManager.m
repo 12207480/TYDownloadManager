@@ -348,8 +348,7 @@
 // 获取下载模型
 - (TYDownLoadModel *)downLoadingModelForURLString:(NSString *)URLString
 {
-    TYDownLoadModel *downloadModel = [self.downloadingModelDic objectForKey:URLString];
-    return downloadModel;
+    return [self.downloadingModelDic objectForKey:URLString];
 }
 
 // 是否已经下载
@@ -362,6 +361,7 @@
     return NO;
 }
 
+// 当前下载进度
 - (TYDownloadProgress *)progessWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
     TYDownloadProgress *progress = [[TYDownloadProgress alloc]init];
@@ -373,11 +373,6 @@
 }
 
 #pragma mark - private
-
-- (void)removeDownLoadingModelForURLString:(NSString *)URLString
-{
-    [self.downloadingModelDic removeObjectForKey:URLString];
-}
 
 //  创建缓存目录文件
 - (void)createDirectory:(NSString *)directory
@@ -401,6 +396,7 @@
     return [downloadsFileSizePlist[downloadModel.downloadURL] longLongValue];
 }
 
+// 获取plist文件内容
 - (NSMutableDictionary *)fileSizePlistWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
     NSMutableDictionary *downloadsFileSizePlist = [NSMutableDictionary dictionaryWithContentsOfFile:[self fileSizePathWithDownloadModel:downloadModel]];
@@ -408,6 +404,11 @@
         downloadsFileSizePlist = [NSMutableDictionary dictionary];
     }
     return downloadsFileSizePlist;
+}
+
+- (void)removeDownLoadingModelForURLString:(NSString *)URLString
+{
+    [self.downloadingModelDic removeObjectForKey:URLString];
 }
 
 #pragma mark - NSURLSessionDelegate

@@ -26,6 +26,9 @@
 // 开始下载
 - (void)startWithDownloadModel:(TYDownLoadModel *)downloadModel;
 
+// 恢复下载
+- (void)resumeWithDownloadModel:(TYDownLoadModel *)downloadModel;
+
 // 暂停下载
 - (void)suspendWithDownloadModel:(TYDownLoadModel *)downloadModel;
 
@@ -40,8 +43,10 @@
 
 // 获取正在下载模型
 - (TYDownLoadModel *)downLoadingModelForURLString:(NSString *)URLString;
+
 // 获取下载模型的进度
 - (TYDownloadProgress *)progessWithDownloadModel:(TYDownLoadModel *)downloadModel;
+
 // 是否已经下载
 - (BOOL)isDownloadCompletedWithDownloadModel:(TYDownLoadModel *)downloadModel;
 
