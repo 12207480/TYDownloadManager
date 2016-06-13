@@ -14,6 +14,9 @@
  */
 @interface TYDownLoadDataManager : NSObject <NSURLSessionDelegate>
 
+// 正在下载的model
+- (NSDictionary *)downloadingModels;
+
 // 单例
 + (TYDownLoadDataManager *)manager;
 

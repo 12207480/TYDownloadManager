@@ -127,6 +127,11 @@
     return _downloadingModelDic;
 }
 
+- (NSDictionary *)downloadingModels
+{
+    return self.downloadingModelDic;
+}
+
 #pragma mark - downlaod
 
 - (TYDownLoadModel *)startDownloadURLString:(NSString *)URLString toDestinationPath:(NSString *)destinationPath progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state
@@ -443,6 +448,13 @@
     if (!downloadModel) {
         return;
     }
+    
+    // 关闭流
+    [downloadModel.stream close];
+    downloadModel.stream = nil;
+    downloadModel.task = nil;
+    
+    [self removeDownLoadingModelForURLString:downloadModel.downloadURL];
 
     if (downloadModel.manualCancle) {
         dispatch_async(dispatch_get_main_queue(), ^(){
@@ -468,13 +480,6 @@
             }
         });
     }
-    
-    // 关闭流
-    [downloadModel.stream close];
-    downloadModel.stream = nil;
-    downloadModel.task = nil;
-    
-    [self removeDownLoadingModelForURLString:downloadModel.downloadURL];
 }
 
 @end
