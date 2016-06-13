@@ -153,7 +153,7 @@
 
 - (void)startWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
-    if (!downloadModel || downloadModel.state == TYDownLoadStateReadying) {
+    if (!downloadModel) {
         return;
     }
     

@@ -179,9 +179,6 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
 - (NSString *)stateTitleWithState:(TYDownLoadState)state
 {
     switch (state) {
-        case TYDownLoadStateReadying:
-            return @"等待下载";
-            break;
         case TYDownLoadStateRunning:
             return @"暂停下载";
             break;
