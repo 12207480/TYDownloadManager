@@ -26,7 +26,7 @@
 // 开始下载
 - (void)startWithDownloadModel:(TYDownLoadModel *)downloadModel;
 
-// 恢复下载
+// 恢复下载（确定对这个model进行了suspend，否则使用start）
 - (void)resumeWithDownloadModel:(TYDownLoadModel *)downloadModel;
 
 // 暂停下载

@@ -64,6 +64,7 @@ typedef void (^TYDownloadStateBlock)(TYDownLoadState state,NSString *filePath, N
  *  @param filePath  缓存地址 当为nil 默认缓存到cache
  */
 - (instancetype)initWithURLString:(NSString *)URLString filePath:(NSString *)filePath;
+
 - (instancetype)initWithURLString:(NSString *)URLString;
 
 @end
