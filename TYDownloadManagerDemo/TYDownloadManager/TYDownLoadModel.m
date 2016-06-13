@@ -47,6 +47,8 @@
 @property (nonatomic, strong) NSString *filePath;
 // 下载时间
 @property (nonatomic, strong) NSDate *downloadDate;
+// 手动取消当做暂停
+@property (nonatomic, assign) BOOL manualCancle;
 
 @end
 

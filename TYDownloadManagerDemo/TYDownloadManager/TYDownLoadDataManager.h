@@ -14,9 +14,6 @@
  */
 @interface TYDownLoadDataManager : NSObject <NSURLSessionDelegate>
 
-// 最大下载数
-@property (nonatomic, assign) NSInteger maxDownloadCount;
-
 // 单例
 + (TYDownLoadDataManager *)manager;
 

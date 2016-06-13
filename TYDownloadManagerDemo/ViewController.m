@@ -39,7 +39,7 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
-    manager.maxDownloadCount = 2;
+    //manager.maxDownloadCount = 2;
     
     [self refreshDowloadInfo];
     [self refreshDowloadInfo1];
@@ -113,7 +113,7 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
     }
     
     if (_downloadModel1.state == TYDownLoadStateRunning) {
-        [manager cancleWithDownloadModel:_downloadModel1];
+        [manager suspendWithDownloadModel:_downloadModel1];
         return;
     }
     
