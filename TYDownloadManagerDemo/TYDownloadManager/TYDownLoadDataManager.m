@@ -197,8 +197,10 @@
     // 验证是否存在
     if (downloadModel.task && downloadModel.task.state == NSURLSessionTaskStateRunning) {
         downloadModel.state = TYDownLoadStateRunning;
-        if ([self.downloadingModels indexOfObject:downloadModel] == NSNotFound) {
-            [self.downloadingModels addObject:downloadModel];
+        @synchronized (self) {
+            if ([self.downloadingModels indexOfObject:downloadModel] == NSNotFound) {
+                [self.downloadingModels addObject:downloadModel];
+            }
         }
         return;
     }
@@ -211,21 +213,29 @@
     if (!downloadModel) {
         return;
     }
-    if (self.downloadingModels.count >= _maxDownloadCount ) {
-        if ([self.waitingDownloadModels indexOfObject:downloadModel] == NSNotFound) {
-            [self.waitingDownloadModels addObject:downloadModel];
+    
+    @synchronized (self) {
+        if (self.downloadingModels.count >= _maxDownloadCount ) {
+            if ([self.waitingDownloadModels indexOfObject:downloadModel] == NSNotFound) {
+                [self.waitingDownloadModels addObject:downloadModel];
                 downloadModel.state = TYDownLoadStateReadying;
                 if (downloadModel.stateBlock) {
                     downloadModel.stateBlock(TYDownLoadStateReadying,nil,nil);
                 }
+            }
+            return;
         }
-        return;
+    
+        if ([self.waitingDownloadModels indexOfObject:downloadModel] != NSNotFound) {
+            [self.waitingDownloadModels removeObject:downloadModel];
+        }
+    
+        if ([self.downloadingModels indexOfObject:downloadModel] == NSNotFound) {
+            [self.downloadingModels addObject:downloadModel];
+        }
     }
     
-    if ([self.waitingDownloadModels indexOfObject:downloadModel] != NSNotFound) {
-        [self.waitingDownloadModels removeObject:downloadModel];
-    }
-    
+    NSLog(@"下载个数%ld,等待个数%ld",self.downloadingModels.count,self.waitingDownloadModels.count);
     // 创建目录
     [self createDirectory:downloadModel.downloadDirectory];
     
@@ -250,10 +260,6 @@
         // 创建一个Data任务
         downloadModel.task = [self.session dataTaskWithRequest:request];
         downloadModel.task.taskDescription = URLString;
-    }
-    
-    if ([self.downloadingModels indexOfObject:downloadModel] == NSNotFound) {
-        [self.downloadingModels addObject:downloadModel];
     }
     
     [downloadModel.task resume];
@@ -303,15 +309,20 @@
         }
         downloadModel.stream = nil;
         // 删除沙盒中的资源
-        [self.fileManager removeItemAtPath:downloadModel.filePath error:nil];
+        NSError *error = nil;
+        [self.fileManager removeItemAtPath:downloadModel.filePath error:&error];
+        if (error) {
+            NSLog(@"delete file error %@",error);
+        }
         
         [self removeDownLoadingModelForURLString:downloadModel.downloadURL];
         // 删除资源总长度
         if ([self.fileManager fileExistsAtPath:[self fileSizePathWithDownloadModel:downloadModel]]) {
-            
-            NSMutableDictionary *dict = [self fileSizePlistWithDownloadModel:downloadModel];
-            [dict removeObjectForKey:downloadModel.downloadURL];
-            [dict writeToFile:[self fileSizePathWithDownloadModel:downloadModel] atomically:YES];
+            @synchronized (self) {
+                NSMutableDictionary *dict = [self fileSizePlistWithDownloadModel:downloadModel];
+                [dict removeObjectForKey:downloadModel.downloadURL];
+                [dict writeToFile:[self fileSizePathWithDownloadModel:downloadModel] atomically:YES];
+            }
         }
     }
 }
@@ -366,7 +377,7 @@
 {
     TYDownloadProgress *progress = [[TYDownloadProgress alloc]init];
     progress.totalBytesExpectedToWrite = [self fileSizeInCachePlistWithDownloadModel:downloadModel];
-    progress.totalBytesWritten = [self fileSizeWithDownloadModel:downloadModel];
+    progress.totalBytesWritten = MIN([self fileSizeWithDownloadModel:downloadModel], progress.totalBytesExpectedToWrite);
     progress.progress = progress.totalBytesExpectedToWrite > 0 ? 1.0*progress.totalBytesWritten/progress.totalBytesExpectedToWrite : 0;
     
     return progress;
@@ -428,16 +439,18 @@
     
     // 获得服务器这次请求 返回数据的总长度
     long long totalBytesWritten =  [self fileSizeWithDownloadModel:downloadModel];
-    long long totalBytesExpectedToWrite = totalBytesWritten + [response.allHeaderFields[@"Content-Length"] longLongValue];
+    long long totalBytesExpectedToWrite = totalBytesWritten + dataTask.countOfBytesExpectedToReceive;
     
     downloadModel.progress.resumeBytesWritten = totalBytesWritten;
     downloadModel.progress.totalBytesWritten = totalBytesWritten;
     downloadModel.progress.totalBytesExpectedToWrite = totalBytesExpectedToWrite;
     
     // 存储总长度
-    NSMutableDictionary *dic = [self fileSizePlistWithDownloadModel:downloadModel];
-    dic[downloadModel.downloadURL] = @(totalBytesExpectedToWrite);
-    [dic writeToFile:[self fileSizePathWithDownloadModel:downloadModel] atomically:YES];
+    @synchronized (self) {
+        NSMutableDictionary *dic = [self fileSizePlistWithDownloadModel:downloadModel];
+        dic[downloadModel.downloadURL] = @(totalBytesExpectedToWrite);
+        [dic writeToFile:[self fileSizePathWithDownloadModel:downloadModel] atomically:YES];
+    }
     
     // 接收这个请求，允许接收服务器的数据
     completionHandler(NSURLSessionResponseAllow);
@@ -519,10 +532,12 @@
     [self removeDownLoadingModelForURLString:downloadModel.downloadURL];
     
     dispatch_async(dispatch_get_main_queue(), ^(){
-        [self.downloadingModels removeObject:downloadModel];
-        // 还有未下载的
-        if (self.waitingDownloadModels.count > 0) {
-            [self resumeWithDownloadModel:self.waitingDownloadModels.firstObject];
+        @synchronized (self) {
+            [self.downloadingModels removeObject:downloadModel];
+            // 还有未下载的
+            if (self.waitingDownloadModels.count > 0) {
+                [self resumeWithDownloadModel:self.waitingDownloadModels.firstObject];
+            }
         }
     });
 }
