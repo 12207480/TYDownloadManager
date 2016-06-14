@@ -14,8 +14,8 @@
  */
 @interface TYDownLoadDataManager : NSObject <NSURLSessionDelegate>
 
-// 正在下载的model
-- (NSDictionary *)downloadingModels;
+// 最大下载数
+@property (nonatomic, assign) NSInteger maxDownloadCount;
 
 // 单例
 + (TYDownLoadDataManager *)manager;

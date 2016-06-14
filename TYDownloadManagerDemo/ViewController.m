@@ -83,6 +83,10 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
         [manager deleteFileWithDownloadModel:_downloadModel];
     }
     
+    if (_downloadModel.state == TYDownLoadStateReadying) {
+        return;
+    }
+    
     if (_downloadModel.state == TYDownLoadStateRunning) {
         [manager suspendWithDownloadModel:_downloadModel];
         return;
@@ -106,6 +110,11 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
 
 - (IBAction)download1:(id)sender {
     TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
+    
+    if (_downloadModel1.state == TYDownLoadStateReadying) {
+        return;
+    }
+    
     if ([manager isDownloadCompletedWithDownloadModel:_downloadModel1]) {
         [manager deleteFileWithDownloadModel:_downloadModel1];
     }
@@ -133,6 +142,11 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
 
 - (IBAction)download2:(id)sender {
     TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
+    
+    if (_downloadModel2.state == TYDownLoadStateReadying) {
+        return;
+    }
+    
     if ([manager isDownloadCompletedWithDownloadModel:_downloadModel2]) {
         [manager deleteFileWithDownloadModel:_downloadModel2];
     }
@@ -177,6 +191,9 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
 - (NSString *)stateTitleWithState:(TYDownLoadState)state
 {
     switch (state) {
+        case TYDownLoadStateReadying:
+            return @"等待下载";
+            break;
         case TYDownLoadStateRunning:
             return @"暂停下载";
             break;

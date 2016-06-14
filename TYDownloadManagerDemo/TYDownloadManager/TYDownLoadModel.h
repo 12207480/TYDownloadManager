@@ -11,6 +11,7 @@
 // 下载状态
 typedef NS_ENUM(NSUInteger, TYDownLoadState) {
     TYDownLoadStateNone,        // 未下载
+    TYDownLoadStateReadying,    // 等待下载
     TYDownLoadStateRunning,     // 正在下载
     TYDownLoadStateSuspended,   // 下载暂停
     TYDownLoadStateCompleted,   // 下载完成
