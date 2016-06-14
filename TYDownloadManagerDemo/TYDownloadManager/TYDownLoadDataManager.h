@@ -17,6 +17,12 @@
 // 最大下载数
 @property (nonatomic, assign) NSInteger maxDownloadCount;
 
+// 等待下载队列 先进先出 默认YES， 当NO时，先进后出
+@property (nonatomic, assign) BOOL resumeDownloadFIFO;
+
+// 全部并发 默认NO, 当YES时，忽略maxDownloadCount
+@property (nonatomic, assign) BOOL isBatchDownload;
+
 // 单例
 + (TYDownLoadDataManager *)manager;
 
@@ -26,7 +32,10 @@
 // 开始下载
 - (void)startWithDownloadModel:(TYDownLoadModel *)downloadModel;
 
-// 恢复下载（确定对这个model进行了suspend，否则使用start）
+// 开始下载
+- (void)startWithDownloadModel:(TYDownLoadModel *)downloadModel progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state;
+
+// 恢复下载（除非确定对这个model进行了suspend，否则使用start）
 - (void)resumeWithDownloadModel:(TYDownLoadModel *)downloadModel;
 
 // 暂停下载

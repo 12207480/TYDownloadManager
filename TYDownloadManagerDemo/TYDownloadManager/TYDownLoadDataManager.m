@@ -89,6 +89,8 @@
 {
     if (self = [super init]) {
         _maxDownloadCount = 1;
+        _resumeDownloadFIFO = YES;
+        _isBatchDownload = NO;
     }
     return self;
 }
@@ -172,12 +174,17 @@
         downloadModel = [[TYDownLoadModel alloc]initWithURLString:URLString filePath:destinationPath];
     }
     
+    [self startWithDownloadModel:downloadModel progress:progress state:state];
+    
+    return downloadModel;
+}
+
+- (void)startWithDownloadModel:(TYDownLoadModel *)downloadModel progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state
+{
     downloadModel.progressBlock = progress;
     downloadModel.stateBlock = state;
     
     [self startWithDownloadModel:downloadModel];
-    
-    return downloadModel;
 }
 
 - (void)startWithDownloadModel:(TYDownLoadModel *)downloadModel
@@ -206,17 +213,25 @@
 
 - (void)willResumeNextWithDowloadModel:(TYDownLoadModel *)downloadModel
 {
+    if (_isBatchDownload) {
+        return;
+    }
+    
     @synchronized (self) {
         [self.downloadingModels removeObject:downloadModel];
         // 还有未下载的
         if (self.waitingDownloadModels.count > 0) {
-            [self resumeWithDownloadModel:self.waitingDownloadModels.firstObject];
+            [self resumeWithDownloadModel:_resumeDownloadFIFO ? self.waitingDownloadModels.firstObject:self.waitingDownloadModels.lastObject];
         }
     }
 }
 
 - (BOOL)canResumeDownlaodModel:(TYDownLoadModel *)downloadModel
 {
+    if (_isBatchDownload) {
+        return YES;
+    }
+    
     @synchronized (self) {
         if (self.downloadingModels.count >= _maxDownloadCount ) {
             if ([self.waitingDownloadModels indexOfObject:downloadModel] == NSNotFound) {

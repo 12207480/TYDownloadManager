@@ -79,12 +79,13 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
 
 - (IBAction)download:(id)sender {
     TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
-    if ([manager isDownloadCompletedWithDownloadModel:_downloadModel]) {
-        [manager deleteFileWithDownloadModel:_downloadModel];
-    }
     
     if (_downloadModel.state == TYDownLoadStateReadying) {
         return;
+    }
+    
+    if ([manager isDownloadCompletedWithDownloadModel:_downloadModel]) {
+        [manager deleteFileWithDownloadModel:_downloadModel];
     }
     
     if (_downloadModel.state == TYDownLoadStateRunning) {
@@ -92,7 +93,7 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
         return;
     }
     
-    _downloadModel = [manager startDownloadURLString:downloadUrl toDestinationPath:nil progress:^(TYDownloadProgress *progress) {
+    [manager startWithDownloadModel:_downloadModel progress:^(TYDownloadProgress *progress) {
         self.progressView.progress = progress.progress;
         self.progressLabel.text = [self detailTextForDownloadProgress:progress];
         
@@ -124,7 +125,7 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
         return;
     }
     
-    _downloadModel1 = [manager startDownloadURLString:downloadUrl1 toDestinationPath:nil progress:^(TYDownloadProgress *progress) {
+    [manager startWithDownloadModel:_downloadModel1 progress:^(TYDownloadProgress *progress) {
         self.progressView1.progress = progress.progress;
         self.progressLabel1.text = [self detailTextForDownloadProgress:progress];
         
@@ -156,7 +157,7 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
         return;
     }
     
-    _downloadModel2 = [manager startDownloadURLString:downloadUrl2 toDestinationPath:nil progress:^(TYDownloadProgress *progress) {
+    [manager startWithDownloadModel:_downloadModel2 progress:^(TYDownloadProgress *progress) {
         self.progressView2.progress = progress.progress;
         self.progressLabel2.text = [self detailTextForDownloadProgress:progress];
         
