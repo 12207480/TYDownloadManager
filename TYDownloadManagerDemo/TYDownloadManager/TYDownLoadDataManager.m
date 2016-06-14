@@ -101,7 +101,7 @@
 {
     if (!_queue) {
         _queue = [[NSOperationQueue alloc]init];
-        _queue.maxConcurrentOperationCount = 3;
+        _queue.maxConcurrentOperationCount = 1;
     }
     return _queue;
 }
