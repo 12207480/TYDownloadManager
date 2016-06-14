@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B3BEBC91D0EB09C00B6E552 /* TYDownloadSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3BEBC81D0EB09C00B6E552 /* TYDownloadSessionManager.m */; };
 		2BF9E9F71D0D50D200FCD6CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF9E9F61D0D50D200FCD6CA /* main.m */; };
 		2BF9E9FA1D0D50D200FCD6CA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF9E9F91D0D50D200FCD6CA /* AppDelegate.m */; };
 		2BF9E9FD1D0D50D200FCD6CA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF9E9FC1D0D50D200FCD6CA /* ViewController.m */; };
@@ -19,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B3BEBC71D0EB09C00B6E552 /* TYDownloadSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYDownloadSessionManager.h; sourceTree = "<group>"; };
+		2B3BEBC81D0EB09C00B6E552 /* TYDownloadSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYDownloadSessionManager.m; sourceTree = "<group>"; };
 		2BF9E9F21D0D50D200FCD6CA /* TYDownloadManagerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TYDownloadManagerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BF9E9F61D0D50D200FCD6CA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2BF9E9F81D0D50D200FCD6CA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -94,6 +97,8 @@
 			children = (
 				2BF9EA101D0D579600FCD6CA /* TYDownLoadDataManager.h */,
 				2BF9EA111D0D579600FCD6CA /* TYDownLoadDataManager.m */,
+				2B3BEBC71D0EB09C00B6E552 /* TYDownloadSessionManager.h */,
+				2B3BEBC81D0EB09C00B6E552 /* TYDownloadSessionManager.m */,
 				2BF9EA131D0D583F00FCD6CA /* TYDownLoadModel.h */,
 				2BF9EA141D0D583F00FCD6CA /* TYDownLoadModel.m */,
 				2BF9EA161D0D588C00FCD6CA /* TYDownloadUtility.h */,
@@ -174,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BF9EA121D0D579600FCD6CA /* TYDownLoadDataManager.m in Sources */,
+				2B3BEBC91D0EB09C00B6E552 /* TYDownloadSessionManager.m in Sources */,
 				2BF9E9FD1D0D50D200FCD6CA /* ViewController.m in Sources */,
 				2BF9E9FA1D0D50D200FCD6CA /* AppDelegate.m in Sources */,
 				2BF9EA181D0D588C00FCD6CA /* TYDownloadUtility.m in Sources */,

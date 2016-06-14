@@ -164,10 +164,9 @@
     
     // 验证是否已经下载文件
     if ([self isDownloadCompletedWithDownloadModel:downloadModel]) {
-        NSString *filePath = downloadModel.filePath;
         downloadModel.state = TYDownLoadStateCompleted;
         if (downloadModel.stateBlock) {
-            downloadModel.stateBlock(TYDownLoadStateCompleted,filePath,nil);
+            downloadModel.stateBlock(TYDownLoadStateCompleted,downloadModel.filePath,nil);
         }
         return;
     }
@@ -213,6 +212,7 @@
     }
     
     [downloadModel.task resume];
+    
     if (downloadModel.stateBlock) {
         downloadModel.state = TYDownLoadStateRunning;
         downloadModel.stateBlock(TYDownLoadStateRunning,nil,nil);
@@ -238,14 +238,11 @@
 
 - (void)deleteFileWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
-    if (!downloadModel) {
+    if (!downloadModel || !downloadModel.filePath) {
         return;
     }
     
-    if (!downloadModel.filePath) {
-        return;
-    }
-    
+    // 文件是否存在
     if ([self.fileManager fileExistsAtPath:downloadModel.filePath]) {
         
         // 删除任务
@@ -458,11 +455,11 @@
 
     if (downloadModel.manualCancle) {
         dispatch_async(dispatch_get_main_queue(), ^(){
+            downloadModel.manualCancle = NO;
             downloadModel.state = TYDownLoadStateSuspended;
             if (downloadModel.stateBlock) {
                 downloadModel.stateBlock(TYDownLoadStateSuspended,nil,nil);
             }
-            downloadModel.manualCancle = NO;
         });
     }else if ([self isDownloadCompletedWithDownloadModel:downloadModel]) {
         dispatch_async(dispatch_get_main_queue(), ^(){
