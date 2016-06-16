@@ -240,10 +240,13 @@
             downloadModel.task = [self.session downloadTaskWithRequest:request];
         }
         downloadModel.task.taskDescription = downloadModel.downloadURL;
+        downloadModel.downloadDate = [NSDate date];
     }
+
     if (!downloadModel.downloadDate) {
         downloadModel.downloadDate = [NSDate date];
     }
+    
     if (![self.downloadingModelDic objectForKey:downloadModel.downloadURL]) {
         self.downloadingModelDic[downloadModel.downloadURL] = downloadModel;
     }
@@ -494,6 +497,17 @@
 
 #pragma mark - NSURLSessionDownloadDelegate
 
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes
+{
+    TYDownLoadModel *downloadModel = [self downLoadingModelForURLString:downloadTask.taskDescription];
+    
+    if (!downloadModel || downloadModel.state == TYDownLoadStateSuspended) {
+        return;
+    }
+    
+    downloadModel.progress.resumeBytesWritten = fileOffset;
+}
+
 // 监听文件下载进度
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
       didWriteData:(int64_t)bytesWritten
@@ -509,15 +523,9 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
     float progress = (double)totalBytesWritten/totalBytesExpectedToWrite;
     
     int64_t resumeBytesWritten = downloadModel.progress.resumeBytesWritten;
-    if (resumeBytesWritten == 0 && downloadModel.resumeData) {
-        resumeBytesWritten = totalBytesWritten;
-        downloadModel.progress.resumeBytesWritten = resumeBytesWritten;
-    }
     
-    //    NSLog(@"%lld",resumeBytesWritten);
     NSTimeInterval downloadTime = -1 * [downloadModel.downloadDate timeIntervalSinceNow];
     float speed = (totalBytesWritten - resumeBytesWritten) / downloadTime;
-    
     
     int64_t remainingContentLength = totalBytesExpectedToWrite - totalBytesWritten;
     int remainingTime = (int)(remainingContentLength / speed);
@@ -562,10 +570,12 @@ didFinishDownloadingToURL:(NSURL *)location
     }
 
     if (error) {
+        downloadModel.progress.resumeBytesWritten = 0;
         downloadModel.resumeData = [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
         [downloadModel.resumeData writeToFile:[self resumeDataPathWithDownloadModel:downloadModel] atomically:YES];
     } else {
         downloadModel.resumeData = nil;
+        downloadModel.progress.resumeBytesWritten = 0;
         [self deleteFileIfExist:[self resumeDataPathWithDownloadModel:downloadModel]];
     }
     
