@@ -43,7 +43,7 @@ typedef void (^TYDownloadStateBlock)(TYDownLoadState state,NSString *filePath, N
 // 下载状态
 @property (nonatomic, assign, readonly) TYDownLoadState state;
 // 下载任务
-@property (nonatomic, strong, readonly) NSURLSessionDataTask *task;
+@property (nonatomic, strong, readonly) NSURLSessionTask *task;
 // 文件流
 @property (nonatomic, strong, readonly) NSOutputStream *stream;
 // 下载进度

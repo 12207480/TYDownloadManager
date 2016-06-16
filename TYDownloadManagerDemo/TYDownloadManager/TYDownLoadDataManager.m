@@ -47,6 +47,7 @@
 @property (nonatomic, assign) float speed;
 // 下载剩余时间
 @property (nonatomic, assign) int remainingTime;
+
 @end
 
 

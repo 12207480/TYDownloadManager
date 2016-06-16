@@ -40,13 +40,15 @@
 // 下载状态
 @property (nonatomic, assign) TYDownLoadState state;
 // 下载任务
-@property (nonatomic, strong) NSURLSessionDataTask *task;
+@property (nonatomic, strong) NSURLSessionTask *task;
 // 文件流
 @property (nonatomic, strong) NSOutputStream *stream;
 // 下载文件路径,下载完成后有值,把它移动到你的目录
 @property (nonatomic, strong) NSString *filePath;
 // 下载时间
 @property (nonatomic, strong) NSDate *downloadDate;
+// 断点续传需要设置这个数据 
+@property (nonatomic, strong) NSData *resumeData;
 // 手动取消当做暂停
 @property (nonatomic, assign) BOOL manualCancle;
 

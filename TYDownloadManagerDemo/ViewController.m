@@ -7,8 +7,9 @@
 //
 
 #import "ViewController.h"
-#import "TYDownLoadDataManager.h"
+//#import "TYDownLoadDataManager.h"
 #import "TYDownLoadUtility.h"
+#import "TYDownloadSessionManager.h"
 
 @interface ViewController ()
 
@@ -47,38 +48,50 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
 - (void)refreshDowloadInfo
 {
     TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl];
-    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
-    
-    self.progressLabel.text = [self detailTextForDownloadProgress:progress];
-    self.progressView.progress = progress.progress;
-    [self.downloadBtn setTitle:[[TYDownLoadDataManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
+//    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
+//    
+//    self.progressLabel.text = [self detailTextForDownloadProgress:progress];
+//    self.progressView.progress = progress.progress;
+    [self.downloadBtn setTitle:[[TYDownloadSessionManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
     _downloadModel = model;
+    
+    if (!_downloadModel.task && [[TYDownloadSessionManager manager] backgroundSessionTasksWithDownloadModel:_downloadModel]) {
+        [self download:nil];
+    }
 }
 
 - (void)refreshDowloadInfo1
 {
     TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl1];
-    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
-    
-    self.progressLabel1.text = [self detailTextForDownloadProgress:progress];
-    self.progressView1.progress = progress.progress;
-    [self.downloadBtn1 setTitle:[[TYDownLoadDataManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
+//    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
+//    
+//    self.progressLabel1.text = [self detailTextForDownloadProgress:progress];
+//    self.progressView1.progress = progress.progress;
+    [self.downloadBtn1 setTitle:[[TYDownloadSessionManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
     _downloadModel1 = model;
+    
+    if (!_downloadModel1.task && [[TYDownloadSessionManager manager] backgroundSessionTasksWithDownloadModel:_downloadModel1]) {
+        [self download1:nil];
+    }
 }
 
 - (void)refreshDowloadInfo2
 {
     TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl2];
-    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
-    
-    self.progressLabel2.text = [self detailTextForDownloadProgress:progress];
-    self.progressView2.progress = progress.progress;
-    [self.downloadBtn2 setTitle:[[TYDownLoadDataManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
+//    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
+//    
+//    self.progressLabel2.text = [self detailTextForDownloadProgress:progress];
+//    self.progressView2.progress = progress.progress;
+    [self.downloadBtn2 setTitle:[[TYDownloadSessionManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
     _downloadModel2 = model;
+    
+    if (!_downloadModel2.task && [[TYDownloadSessionManager manager] backgroundSessionTasksWithDownloadModel:_downloadModel2]) {
+        [self download2:nil];
+    }
 }
 
 - (IBAction)download:(id)sender {
-    TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
+    TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
     
     if (_downloadModel.state == TYDownLoadStateReadying) {
         return;
@@ -110,7 +123,7 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
 }
 
 - (IBAction)download1:(id)sender {
-    TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
+    TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
     
     if (_downloadModel1.state == TYDownLoadStateReadying) {
         return;
@@ -142,7 +155,7 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
 }
 
 - (IBAction)download2:(id)sender {
-    TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
+    TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
     
     if (_downloadModel2.state == TYDownLoadStateReadying) {
         return;
