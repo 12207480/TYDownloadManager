@@ -583,6 +583,8 @@ didFinishDownloadingToURL:(NSURL *)location
         NSData *resumeData = error ? [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData]:nil;
         if (resumeData) {
             [resumeData writeToFile:[self resumeDataPathWithDownloadURL:task.taskDescription] atomically:YES];
+        }else {
+            [self deleteFileIfExist:[self resumeDataPathWithDownloadURL:task.taskDescription]];
         }
         return;
     }
