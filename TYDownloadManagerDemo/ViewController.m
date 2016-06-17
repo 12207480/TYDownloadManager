@@ -10,6 +10,7 @@
 //#import "TYDownLoadDataManager.h"
 #import "TYDownLoadUtility.h"
 #import "TYDownloadSessionManager.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface ViewController ()
 
@@ -28,6 +29,9 @@
 @property (nonatomic,strong) TYDownLoadModel *downloadModel;
 @property (nonatomic,strong) TYDownLoadModel *downloadModel1;
 @property (nonatomic,strong) TYDownLoadModel *downloadModel2;
+
+//播放器视图控制器
+@property (nonatomic,strong) MPMoviePlayerViewController *moviePlayerViewController;
 @end
 
 NSString * const downloadUrl = @"http://down.233.com/2014_2015/2014/jzs1/jingji_zhenti_yjw/6-qllgl2v5x9b80vvgwgzzlnzydkj1bpr66hnool80.mp4";
@@ -98,7 +102,10 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
     }
     
     if ([manager isDownloadCompletedWithDownloadModel:_downloadModel]) {
-        [manager deleteFileWithDownloadModel:_downloadModel];
+        _moviePlayerViewController=[[MPMoviePlayerViewController alloc]initWithContentURL:[NSURL fileURLWithPath:_downloadModel.filePath]];
+        [self presentMoviePlayerViewControllerAnimated:_moviePlayerViewController];
+        //[manager deleteFileWithDownloadModel:_downloadModel];
+        return;
     }
     
     if (_downloadModel.state == TYDownLoadStateRunning) {
@@ -130,7 +137,10 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
     }
     
     if ([manager isDownloadCompletedWithDownloadModel:_downloadModel1]) {
+//        _moviePlayerViewController=[[MPMoviePlayerViewController alloc]initWithContentURL:[NSURL fileURLWithPath:_downloadModel1.filePath]];
+//        [self presentMoviePlayerViewControllerAnimated:_moviePlayerViewController];
         [manager deleteFileWithDownloadModel:_downloadModel1];
+        return;
     }
     
     if (_downloadModel1.state == TYDownLoadStateRunning) {

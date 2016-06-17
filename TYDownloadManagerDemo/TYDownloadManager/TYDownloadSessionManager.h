@@ -31,6 +31,9 @@
 // 单例
 + (TYDownloadSessionManager *)manager;
 
+// 配置后台session
+- (void)configureBackroundSession;
+
 // 开始下载
 - (TYDownLoadModel *)startDownloadURLString:(NSString *)URLString toDestinationPath:(NSString *)destinationPath progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state;
 

@@ -101,6 +101,14 @@
     return self;
 }
 
+- (void)configureBackroundSession
+{
+    if (!_backgroundConfigure) {
+        return;
+    }
+    [self session];
+}
+
 #pragma mark - getter
 
 - (NSFileManager *)fileManager
@@ -139,7 +147,7 @@
 - (NSString *)downloadDirectory
 {
     if (!_downloadDirectory) {
-        _downloadDirectory = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"TYDownlodSessionCache"];
+        _downloadDirectory = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"TYDownlodCache"];
     }
     return _downloadDirectory;
 }
@@ -210,6 +218,8 @@
         return;
     }
     
+    [self createDirectory:downloadModel.downloadDirectory];
+    
     // 后台下载设置
     [self configirebackgroundSessionTasksWithDownloadModel:downloadModel];
     
@@ -221,8 +231,6 @@
     if (!downloadModel) {
         return;
     }
-    
-    [self createDirectory:downloadModel.downloadDirectory];
     
     if (![self canResumeDownlaodModel:downloadModel]) {
         return;
@@ -290,7 +298,6 @@
         [downloadModel.task cancel];
     }else {
         [(NSURLSessionDownloadTask *)downloadModel.task cancelByProducingResumeData:^(NSData *resumeData){
-            //weakSelf.resumeData = resumeData;
         }];
     }
 }
@@ -340,19 +347,15 @@
     }
 }
 
-- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
-{
-    if (self.backgroundSessionCompletionHandler) {
-        self.backgroundSessionCompletionHandler();
-    }
-}
-
 #pragma mark - configire background task
 
 - (void)configirebackgroundSessionTasksWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
-    NSURLSessionDownloadTask *task = [self backgroundSessionTasksWithDownloadModel:downloadModel];
+    if (!_backgroundConfigure) {
+        return ;
+    }
     
+    NSURLSessionDownloadTask *task = [self backgroundSessionTasksWithDownloadModel:downloadModel];
     if (!task) {
         return;
     }
@@ -367,7 +370,7 @@
 {
     NSArray *tasks = [self sessionDownloadTasks];
     for (NSURLSessionDownloadTask *task in tasks) {
-        if (task.state == NSURLSessionTaskStateRunning || NSURLSessionTaskStateSuspended) {
+        if (task.state == NSURLSessionTaskStateRunning || task.state == NSURLSessionTaskStateSuspended) {
             NSString *taskInfo = downloadModel.downloadURL;
             if ([taskInfo isEqualToString:task.taskDescription]) {
                 return task;
@@ -412,6 +415,16 @@
     return [self.fileManager fileExistsAtPath:downloadModel.filePath];
 }
 
+// 取消所有后台
+- (void)cancleAllBackgroundSessionTasks
+{
+    NSArray *tasks = [self sessionDownloadTasks];
+    for (NSURLSessionDownloadTask *task in tasks) {
+        [task cancelByProducingResumeData:^(NSData * resumeData) {
+        }];
+    }
+}
+
 #pragma mark - private
 
 - (void)removeDownLoadingModelForURLString:(NSString *)URLString
@@ -424,7 +437,7 @@
     if (downloadModel.resumeData) {
         return downloadModel.resumeData;
     }
-    NSString *resumeDataPath = [self resumeDataPathWithDownloadModel:downloadModel];
+    NSString *resumeDataPath = [self resumeDataPathWithDownloadURL:downloadModel.downloadURL];
     
     if ([_fileManager fileExistsAtPath:resumeDataPath]) {
         NSData *resumeData = [NSData dataWithContentsOfFile:resumeDataPath];
@@ -433,10 +446,10 @@
     return nil;
 }
 
-- (NSString *)resumeDataPathWithDownloadModel:(TYDownLoadModel *)downloadModel
+- (NSString *)resumeDataPathWithDownloadURL:(NSString *)downloadURL
 {
-    NSString *resumeFileName = [[self class] md5:downloadModel.downloadURL];
-    return [downloadModel.downloadDirectory stringByAppendingPathComponent:resumeFileName];
+    NSString *resumeFileName = [[self class] md5:downloadURL];
+    return [self.downloadDirectory stringByAppendingPathComponent:resumeFileName];
 }
 
 + (NSString *)md5:(NSString *)str
@@ -556,6 +569,7 @@ didFinishDownloadingToURL:(NSURL *)location
     
     if (location) {
         // 移动文件到下载目录
+        [self createDirectory:downloadModel.downloadDirectory];
         [self moveFileAtURL:location toPath:downloadModel.filePath];
     }
 }
@@ -566,17 +580,21 @@ didFinishDownloadingToURL:(NSURL *)location
     TYDownLoadModel *downloadModel = [self downLoadingModelForURLString:task.taskDescription];
     
     if (!downloadModel) {
+        NSData *resumeData = error ? [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData]:nil;
+        if (resumeData) {
+            [resumeData writeToFile:[self resumeDataPathWithDownloadURL:task.taskDescription] atomically:YES];
+        }
         return;
     }
 
     if (error) {
         downloadModel.progress.resumeBytesWritten = 0;
         downloadModel.resumeData = [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
-        [downloadModel.resumeData writeToFile:[self resumeDataPathWithDownloadModel:downloadModel] atomically:YES];
+        [downloadModel.resumeData writeToFile:[self resumeDataPathWithDownloadURL:downloadModel.downloadURL] atomically:YES];
     } else {
         downloadModel.resumeData = nil;
         downloadModel.progress.resumeBytesWritten = 0;
-        [self deleteFileIfExist:[self resumeDataPathWithDownloadModel:downloadModel]];
+        [self deleteFileIfExist:[self resumeDataPathWithDownloadURL:downloadModel.downloadURL]];
     }
     
     downloadModel.task = nil;
@@ -610,6 +628,13 @@ didFinishDownloadingToURL:(NSURL *)location
         });
     }
 
+}
+
+- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
+{
+    if (self.backgroundSessionCompletionHandler) {
+        self.backgroundSessionCompletionHandler();
+    }
 }
 
 @end
