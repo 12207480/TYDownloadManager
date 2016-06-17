@@ -10,13 +10,13 @@
 #import "TYDownLoadModel.h"
 
 /**
- *  下载管理类
+ *  下载管理类 使用NSURLSessionDataTask
  */
 @interface TYDownLoadDataManager : NSObject <NSURLSessionDelegate>
 
-// 下载中的模型 不要添加删除model
+// 下载中的模型 只读
 @property (nonatomic, strong,readonly) NSMutableArray *waitingDownloadModels;
-// 等待中的模型 不要添加删除model
+// 等待中的模型 只读
 @property (nonatomic, strong,readonly) NSMutableArray *downloadingModels;
 
 // 最大下载数

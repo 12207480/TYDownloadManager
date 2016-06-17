@@ -43,6 +43,8 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    // 配置后台session
+    [[TYDownloadSessionManager manager] configureBackroundSession];
     
     [self refreshDowloadInfo];
     [self refreshDowloadInfo1];

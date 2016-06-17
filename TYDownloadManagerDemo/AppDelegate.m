@@ -18,8 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    // 配置后台session
-    [[TYDownloadSessionManager manager] configureBackroundSession];
+
     return YES;
 }
 
