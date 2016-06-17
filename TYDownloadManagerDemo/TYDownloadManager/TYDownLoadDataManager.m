@@ -125,6 +125,7 @@
 {
     if (!_downloadDirectory) {
         _downloadDirectory = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"TYDownlodDataCache"];
+        [self createDirectory:_downloadDirectory];
     }
     return _downloadDirectory;
 }
@@ -270,6 +271,7 @@
     NSLog(@"下载个数%ld,等待个数%ld",self.downloadingModels.count,self.waitingDownloadModels.count);
     
     // 创建目录
+    [self createDirectory:_downloadDirectory];
     [self createDirectory:downloadModel.downloadDirectory];
     
     // 如果task 不存在 或者 取消了
