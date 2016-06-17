@@ -37,6 +37,9 @@
 // 配置后台session
 - (void)configureBackroundSession;
 
+// 取消所有完成或失败后台task
+- (void)cancleAllBackgroundSessionTasks;
+
 // 开始下载
 - (TYDownLoadModel *)startDownloadURLString:(NSString *)URLString toDestinationPath:(NSString *)destinationPath progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state;
 

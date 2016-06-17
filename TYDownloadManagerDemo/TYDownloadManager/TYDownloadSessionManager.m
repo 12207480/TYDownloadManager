@@ -147,7 +147,8 @@
 - (NSString *)downloadDirectory
 {
     if (!_downloadDirectory) {
-        _downloadDirectory = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"TYDownlodCache"];
+        _downloadDirectory = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"TYDownloadCache"];
+        NSLog(@"downloadDirectory %@",_downloadDirectory);
     }
     return _downloadDirectory;
 }
@@ -218,6 +219,7 @@
         return;
     }
     
+    [self createDirectory:_downloadDirectory];
     [self createDirectory:downloadModel.downloadDirectory];
     
     // 后台下载设置
@@ -418,10 +420,13 @@
 // 取消所有后台
 - (void)cancleAllBackgroundSessionTasks
 {
-    NSArray *tasks = [self sessionDownloadTasks];
-    for (NSURLSessionDownloadTask *task in tasks) {
+    if (!_backgroundConfigure) {
+        return;
+    }
+    
+    for (NSURLSessionDownloadTask *task in [self sessionDownloadTasks]) {
         [task cancelByProducingResumeData:^(NSData * resumeData) {
-        }];
+            }];
     }
 }
 
@@ -479,18 +484,16 @@
 
 - (void)moveFileAtURL:(NSURL *)srcURL toPath:(NSString *)dstPath
 {
-    NSFileManager *fileManager = self.fileManager;
     NSError *error = nil;
-    
-    if ([fileManager fileExistsAtPath:dstPath] ) {
-        [fileManager removeItemAtPath:dstPath error:&error];
+    if ([self.fileManager fileExistsAtPath:dstPath] ) {
+        [self.fileManager removeItemAtPath:dstPath error:&error];
         if (error) {
             NSLog(@"removeItem error %@",error);
         }
     }
     
     NSURL *dstURL = [NSURL fileURLWithPath:dstPath];
-    [fileManager moveItemAtURL:srcURL toURL:dstURL error:&error];
+    [self.fileManager moveItemAtURL:srcURL toURL:dstURL error:&error];
     if (error){
         NSLog(@"moveItem error:%@",error);
     }
@@ -558,7 +561,7 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 }
 
 
-// 下载完成
+// 下载成功
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
 didFinishDownloadingToURL:(NSURL *)location
 {
@@ -574,7 +577,7 @@ didFinishDownloadingToURL:(NSURL *)location
     }
 }
 
-// 下载失败
+// 下载完成
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
     TYDownLoadModel *downloadModel = [self downLoadingModelForURLString:task.taskDescription];
