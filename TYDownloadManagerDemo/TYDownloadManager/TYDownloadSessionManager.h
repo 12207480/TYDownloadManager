@@ -31,6 +31,9 @@
 @property (nonatomic, strong) NSString *backgroundConfigure;
 @property (nonatomic, copy) void (^backgroundSessionCompletionHandler)();
 
+// 后台下载完成后调用 返回文件保存路径filePath
+@property (nonatomic, copy) NSString *(^backgroundSessionDownloadCompleteBlock)(NSString *downloadURL);
+
 // 单例
 + (TYDownloadSessionManager *)manager;
 

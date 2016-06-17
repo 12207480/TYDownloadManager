@@ -567,7 +567,10 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 didFinishDownloadingToURL:(NSURL *)location
 {
     TYDownLoadModel *downloadModel = [self downLoadingModelForURLString:downloadTask.taskDescription];
-    if (!downloadModel) {
+    if (!downloadModel && _backgroundSessionDownloadCompleteBlock) {
+        NSString *filePath = _backgroundSessionDownloadCompleteBlock(downloadTask.taskDescription);
+        // 移动文件到下载目录
+        [self moveFileAtURL:location toPath:filePath];
         return;
     }
     

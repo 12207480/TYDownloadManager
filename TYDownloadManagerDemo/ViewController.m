@@ -43,7 +43,6 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    // 配置后台session
     
     [self refreshDowloadInfo];
     [self refreshDowloadInfo1];
@@ -173,7 +172,10 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
     }
     
     if ([manager isDownloadCompletedWithDownloadModel:_downloadModel2]) {
-        [manager deleteFileWithDownloadModel:_downloadModel2];
+        _moviePlayerViewController=[[MPMoviePlayerViewController alloc]initWithContentURL:[NSURL fileURLWithPath:_downloadModel2.filePath]];
+        [self presentMoviePlayerViewControllerAnimated:_moviePlayerViewController];
+        //[manager deleteFileWithDownloadModel:_downloadModel2];
+        return;
     }
     
     if (_downloadModel2.state == TYDownLoadStateRunning) {
