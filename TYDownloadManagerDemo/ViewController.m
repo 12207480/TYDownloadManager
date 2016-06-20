@@ -102,9 +102,9 @@ NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jing
     }
     
     if ([manager isDownloadCompletedWithDownloadModel:_downloadModel]) {
-        _moviePlayerViewController=[[MPMoviePlayerViewController alloc]initWithContentURL:[NSURL fileURLWithPath:_downloadModel.filePath]];
-        [self presentMoviePlayerViewControllerAnimated:_moviePlayerViewController];
-        //[manager deleteFileWithDownloadModel:_downloadModel];
+//        _moviePlayerViewController=[[MPMoviePlayerViewController alloc]initWithContentURL:[NSURL fileURLWithPath:_downloadModel.filePath]];
+//        [self presentMoviePlayerViewControllerAnimated:_moviePlayerViewController];
+        [manager deleteFileWithDownloadModel:_downloadModel];
         return;
     }
     
