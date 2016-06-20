@@ -1,14 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="8IG-J9-wed">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
+        <scene sceneID="SYk-eN-eOW">
+            <objects>
+                <viewController id="Q00-AC-3Tf" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lqc-xb-NEb"/>
+                        <viewControllerLayoutGuide type="bottom" id="lHF-FR-8WG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lL1-Pe-H6c">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeR-Y9-c4Y">
+                                <rect key="frame" x="190" y="189" width="220" height="30"/>
+                                <state key="normal" title="TYDownloadDataManagerDemo"/>
+                                <connections>
+                                    <segue destination="022-ee-U3C" kind="show" id="luO-dB-j9k"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i6N-sp-uGf">
+                                <rect key="frame" x="180" y="277" width="241" height="30"/>
+                                <state key="normal" title="TYDownloadSessionManagerDemo"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="epU-dS-wCQ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="eeR-Y9-c4Y" firstAttribute="top" secondItem="lqc-xb-NEb" secondAttribute="bottom" constant="125" id="646-co-Y3g"/>
+                            <constraint firstItem="eeR-Y9-c4Y" firstAttribute="centerX" secondItem="lL1-Pe-H6c" secondAttribute="centerX" id="9zS-vF-9Sb"/>
+                            <constraint firstItem="i6N-sp-uGf" firstAttribute="centerX" secondItem="lL1-Pe-H6c" secondAttribute="centerX" id="KEE-1l-deA"/>
+                            <constraint firstItem="i6N-sp-uGf" firstAttribute="top" secondItem="eeR-Y9-c4Y" secondAttribute="bottom" constant="58" id="oIF-Vj-QrP"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="XI5-Yk-988"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pfm-z6-6KX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="495" y="319"/>
+        </scene>
+        <!--Download Session View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="DownloadSessionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -18,33 +59,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X2k-0i-0NA">
-                                <rect key="frame" x="225" y="100" width="150" height="2"/>
+                                <rect key="frame" x="225" y="144" width="150" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="gUs-3l-J29"/>
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKm-Im-P7x">
-                                <rect key="frame" x="285" y="122" width="30" height="30"/>
+                                <rect key="frame" x="285" y="166" width="30" height="30"/>
                                 <state key="normal" title="开始"/>
                                 <state key="selected" title="暂停"/>
                                 <connections>
                                     <action selector="download:" destination="BYZ-38-t0r" eventType="touchUpInside" id="30z-cR-ImK"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fes-VX-Jvn">
-                                <rect key="frame" x="272" y="68" width="57" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="axv-fp-YlG">
-                                <rect key="frame" x="225" y="210" width="150" height="2"/>
+                                <rect key="frame" x="225" y="254" width="150" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="LgA-qC-E5g"/>
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alW-rD-Lwc">
-                                <rect key="frame" x="285" y="232" width="30" height="30"/>
+                                <rect key="frame" x="285" y="276" width="30" height="30"/>
                                 <state key="normal" title="开始"/>
                                 <state key="selected" title="暂停"/>
                                 <connections>
@@ -52,19 +87,19 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4fe-kV-djb">
-                                <rect key="frame" x="272" y="178" width="57" height="17"/>
+                                <rect key="frame" x="272" y="222" width="57" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cQs-zv-ukC">
-                                <rect key="frame" x="225" y="319" width="150" height="2"/>
+                                <rect key="frame" x="225" y="363" width="150" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="GDm-Fk-F4E"/>
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxS-0d-DjA">
-                                <rect key="frame" x="285" y="341" width="30" height="30"/>
+                                <rect key="frame" x="285" y="385" width="30" height="30"/>
                                 <state key="normal" title="开始"/>
                                 <state key="selected" title="暂停"/>
                                 <connections>
@@ -72,7 +107,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2XV-7r-udB">
-                                <rect key="frame" x="272" y="287" width="57" height="17"/>
+                                <rect key="frame" x="272" y="331" width="57" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fes-VX-Jvn">
+                                <rect key="frame" x="272" y="112" width="57" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -114,7 +155,136 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="305" y="357"/>
+            <point key="canvasLocation" x="1208" y="781"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="oaD-AH-2fY">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8IG-J9-wed" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AXO-Kp-nUD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Q00-AC-3Tf" kind="relationship" relationship="rootViewController" id="qok-Wm-6Y6"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="edB-Eg-vvF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-317" y="319"/>
+        </scene>
+        <!--Download Data View Controller-->
+        <scene sceneID="RcU-Ly-nM8">
+            <objects>
+                <viewController id="022-ee-U3C" customClass="DownloadDataViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4WR-ke-xGc"/>
+                        <viewControllerLayoutGuide type="bottom" id="AaH-T5-rZ2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7KJ-ib-xn7">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fqg-so-ejA">
+                                <rect key="frame" x="225" y="144" width="150" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="Po4-4b-TXh"/>
+                                </constraints>
+                            </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aaQ-lp-sd2">
+                                <rect key="frame" x="285" y="166" width="30" height="30"/>
+                                <state key="normal" title="开始"/>
+                                <state key="selected" title="暂停"/>
+                                <connections>
+                                    <action selector="download:" destination="022-ee-U3C" eventType="touchUpInside" id="Sk4-Xy-8B7"/>
+                                </connections>
+                            </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ny6-O7-BsY">
+                                <rect key="frame" x="225" y="254" width="150" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="p6N-DP-wZk"/>
+                                </constraints>
+                            </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONW-mB-4Ld">
+                                <rect key="frame" x="285" y="276" width="30" height="30"/>
+                                <state key="normal" title="开始"/>
+                                <state key="selected" title="暂停"/>
+                                <connections>
+                                    <action selector="download1:" destination="022-ee-U3C" eventType="touchUpInside" id="5eK-B3-bDh"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WAB-vy-5dB">
+                                <rect key="frame" x="272" y="222" width="57" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="u6V-Tc-Rjl">
+                                <rect key="frame" x="225" y="363" width="150" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="Y5Q-nO-rg7"/>
+                                </constraints>
+                            </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2UK-ng-YHy">
+                                <rect key="frame" x="285" y="385" width="30" height="30"/>
+                                <state key="normal" title="开始"/>
+                                <state key="selected" title="暂停"/>
+                                <connections>
+                                    <action selector="download2:" destination="022-ee-U3C" eventType="touchUpInside" id="xkJ-Na-4gC"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dqu-DR-uc1">
+                                <rect key="frame" x="272" y="331" width="57" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n53-vS-5mi">
+                                <rect key="frame" x="272" y="112" width="57" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ny6-O7-BsY" firstAttribute="centerX" secondItem="7KJ-ib-xn7" secondAttribute="centerX" id="3qC-dh-vtw"/>
+                            <constraint firstItem="ONW-mB-4Ld" firstAttribute="centerX" secondItem="7KJ-ib-xn7" secondAttribute="centerX" id="9Nk-hg-1No"/>
+                            <constraint firstItem="ny6-O7-BsY" firstAttribute="top" secondItem="WAB-vy-5dB" secondAttribute="bottom" constant="15" id="9n8-t6-wrD"/>
+                            <constraint firstItem="aaQ-lp-sd2" firstAttribute="centerX" secondItem="7KJ-ib-xn7" secondAttribute="centerX" id="Aau-8b-fhn"/>
+                            <constraint firstItem="n53-vS-5mi" firstAttribute="centerX" secondItem="7KJ-ib-xn7" secondAttribute="centerX" id="CdT-bx-HC3"/>
+                            <constraint firstItem="WAB-vy-5dB" firstAttribute="top" secondItem="aaQ-lp-sd2" secondAttribute="bottom" constant="26" id="GcL-Az-G0X"/>
+                            <constraint firstItem="aaQ-lp-sd2" firstAttribute="top" secondItem="Fqg-so-ejA" secondAttribute="bottom" constant="20" id="JI0-wg-dw2"/>
+                            <constraint firstItem="Fqg-so-ejA" firstAttribute="top" secondItem="n53-vS-5mi" secondAttribute="bottom" constant="15" id="Krs-4t-eAs"/>
+                            <constraint firstItem="ONW-mB-4Ld" firstAttribute="top" secondItem="ny6-O7-BsY" secondAttribute="bottom" constant="20" id="TLl-xE-sw8"/>
+                            <constraint firstItem="WAB-vy-5dB" firstAttribute="centerX" secondItem="7KJ-ib-xn7" secondAttribute="centerX" id="U4n-N3-l9D"/>
+                            <constraint firstItem="2UK-ng-YHy" firstAttribute="centerX" secondItem="7KJ-ib-xn7" secondAttribute="centerX" id="V6y-9m-gDo"/>
+                            <constraint firstItem="Fqg-so-ejA" firstAttribute="centerX" secondItem="7KJ-ib-xn7" secondAttribute="centerX" id="W5L-EJ-1cK"/>
+                            <constraint firstItem="u6V-Tc-Rjl" firstAttribute="top" secondItem="dqu-DR-uc1" secondAttribute="bottom" constant="15" id="Yew-Jg-gOi"/>
+                            <constraint firstItem="u6V-Tc-Rjl" firstAttribute="centerX" secondItem="7KJ-ib-xn7" secondAttribute="centerX" id="isY-gx-lUr"/>
+                            <constraint firstItem="2UK-ng-YHy" firstAttribute="top" secondItem="u6V-Tc-Rjl" secondAttribute="bottom" constant="20" id="tGU-hJ-iZL"/>
+                            <constraint firstItem="dqu-DR-uc1" firstAttribute="top" secondItem="ONW-mB-4Ld" secondAttribute="bottom" constant="25" id="w8j-wZ-Inw"/>
+                            <constraint firstItem="Fqg-so-ejA" firstAttribute="top" secondItem="4WR-ke-xGc" secondAttribute="bottom" constant="80" id="xAj-4l-Qff"/>
+                            <constraint firstItem="dqu-DR-uc1" firstAttribute="centerX" secondItem="7KJ-ib-xn7" secondAttribute="centerX" id="xXS-WK-5SG"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="downloadBtn" destination="aaQ-lp-sd2" id="gqt-YM-kA8"/>
+                        <outlet property="downloadBtn1" destination="ONW-mB-4Ld" id="ZwO-Qg-OXE"/>
+                        <outlet property="downloadBtn2" destination="2UK-ng-YHy" id="uTu-ws-tMi"/>
+                        <outlet property="progressLabel" destination="n53-vS-5mi" id="Ohw-qU-CXn"/>
+                        <outlet property="progressLabel1" destination="WAB-vy-5dB" id="eLW-BJ-gXX"/>
+                        <outlet property="progressLabel2" destination="dqu-DR-uc1" id="o4e-uh-c3y"/>
+                        <outlet property="progressView" destination="Fqg-so-ejA" id="mhI-bs-SdU"/>
+                        <outlet property="progressView1" destination="ny6-O7-BsY" id="MLE-pB-FAO"/>
+                        <outlet property="progressView2" destination="u6V-Tc-Rjl" id="MDp-xx-JFk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="imV-Sz-Ywf" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1208" y="106"/>
         </scene>
     </scenes>
 </document>

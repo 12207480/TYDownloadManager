@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B11F7871D178EC900BFA5DF /* DownloadDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B11F7841D178EC900BFA5DF /* DownloadDataViewController.m */; };
+		2B11F7881D178EC900BFA5DF /* DownloadSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B11F7861D178EC900BFA5DF /* DownloadSessionViewController.m */; };
 		2B3BEBC91D0EB09C00B6E552 /* TYDownloadSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3BEBC81D0EB09C00B6E552 /* TYDownloadSessionManager.m */; };
 		2BF9E9F71D0D50D200FCD6CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF9E9F61D0D50D200FCD6CA /* main.m */; };
 		2BF9E9FA1D0D50D200FCD6CA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF9E9F91D0D50D200FCD6CA /* AppDelegate.m */; };
-		2BF9E9FD1D0D50D200FCD6CA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF9E9FC1D0D50D200FCD6CA /* ViewController.m */; };
 		2BF9EA021D0D50D200FCD6CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BF9EA011D0D50D200FCD6CA /* Assets.xcassets */; };
 		2BF9EA051D0D50D200FCD6CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BF9EA031D0D50D200FCD6CA /* LaunchScreen.storyboard */; };
 		2BF9EA121D0D579600FCD6CA /* TYDownLoadDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF9EA111D0D579600FCD6CA /* TYDownLoadDataManager.m */; };
@@ -20,14 +21,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B11F7831D178EC900BFA5DF /* DownloadDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadDataViewController.h; sourceTree = "<group>"; };
+		2B11F7841D178EC900BFA5DF /* DownloadDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadDataViewController.m; sourceTree = "<group>"; };
+		2B11F7851D178EC900BFA5DF /* DownloadSessionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadSessionViewController.h; sourceTree = "<group>"; };
+		2B11F7861D178EC900BFA5DF /* DownloadSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadSessionViewController.m; sourceTree = "<group>"; };
 		2B3BEBC71D0EB09C00B6E552 /* TYDownloadSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYDownloadSessionManager.h; sourceTree = "<group>"; };
 		2B3BEBC81D0EB09C00B6E552 /* TYDownloadSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYDownloadSessionManager.m; sourceTree = "<group>"; };
 		2BF9E9F21D0D50D200FCD6CA /* TYDownloadManagerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TYDownloadManagerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BF9E9F61D0D50D200FCD6CA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2BF9E9F81D0D50D200FCD6CA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2BF9E9F91D0D50D200FCD6CA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2BF9E9FB1D0D50D200FCD6CA /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		2BF9E9FC1D0D50D200FCD6CA /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2BF9EA011D0D50D200FCD6CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2BF9EA041D0D50D200FCD6CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2BF9EA061D0D50D200FCD6CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -73,8 +76,10 @@
 				2BF9EA0C1D0D50EA00FCD6CA /* TYDownloadManager */,
 				2BF9E9F81D0D50D200FCD6CA /* AppDelegate.h */,
 				2BF9E9F91D0D50D200FCD6CA /* AppDelegate.m */,
-				2BF9E9FB1D0D50D200FCD6CA /* ViewController.h */,
-				2BF9E9FC1D0D50D200FCD6CA /* ViewController.m */,
+				2B11F7831D178EC900BFA5DF /* DownloadDataViewController.h */,
+				2B11F7841D178EC900BFA5DF /* DownloadDataViewController.m */,
+				2B11F7851D178EC900BFA5DF /* DownloadSessionViewController.h */,
+				2B11F7861D178EC900BFA5DF /* DownloadSessionViewController.m */,
 				2BF9EA191D0D5AB900FCD6CA /* Main.storyboard */,
 				2BF9EA011D0D50D200FCD6CA /* Assets.xcassets */,
 				2BF9EA031D0D50D200FCD6CA /* LaunchScreen.storyboard */,
@@ -180,10 +185,11 @@
 			files = (
 				2BF9EA121D0D579600FCD6CA /* TYDownLoadDataManager.m in Sources */,
 				2B3BEBC91D0EB09C00B6E552 /* TYDownloadSessionManager.m in Sources */,
-				2BF9E9FD1D0D50D200FCD6CA /* ViewController.m in Sources */,
 				2BF9E9FA1D0D50D200FCD6CA /* AppDelegate.m in Sources */,
 				2BF9EA181D0D588C00FCD6CA /* TYDownloadUtility.m in Sources */,
 				2BF9EA151D0D583F00FCD6CA /* TYDownLoadModel.m in Sources */,
+				2B11F7881D178EC900BFA5DF /* DownloadSessionViewController.m in Sources */,
+				2B11F7871D178EC900BFA5DF /* DownloadDataViewController.m in Sources */,
 				2BF9E9F71D0D50D200FCD6CA /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

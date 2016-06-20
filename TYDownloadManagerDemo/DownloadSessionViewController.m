@@ -6,13 +6,13 @@
 //  Copyright © 2016年 tany. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "DownloadSessionViewController.h"
 //#import "TYDownLoadDataManager.h"
 #import "TYDownLoadUtility.h"
 #import "TYDownloadSessionManager.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface ViewController ()
+@interface DownloadSessionViewController ()
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIButton *downloadBtn;
@@ -38,7 +38,7 @@ NSString * const downloadUrl = @"http://down.233.com/2014_2015/2014/jzs1/jingji_
 NSString * const downloadUrl1 = @"http://down.233.com/2014a/cy/caijingfagui_jingjiang_quanguoban_mj/2-67fhxrzsawvhojeo5gpsxrafqnc82chu9kop0syla.mp4";
 NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jingjiang_quanguoban_mj/10-607tmjbtijcoglgg5n4dlhgbnqipym23sw2fnvqaf.mp4";
 
-@implementation ViewController
+@implementation DownloadSessionViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
