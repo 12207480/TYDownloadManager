@@ -65,6 +65,9 @@
 // 删除下载
 - (void)deleteFileWithDownloadModel:(TYDownLoadModel *)downloadModel;
 
+// 删除下载
+- (void)deleteAllFileWithDownloadDirectory:(NSString *)downloadDirectory;
+
 // 获取正在下载模型
 - (TYDownLoadModel *)downLoadingModelForURLString:(NSString *)URLString;
 

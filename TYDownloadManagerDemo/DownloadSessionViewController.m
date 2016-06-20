@@ -102,6 +102,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
     TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
     
     if (_downloadModel.state == TYDownLoadStateReadying) {
+        [manager cancleWithDownloadModel:_downloadModel];
         return;
     }
     
@@ -139,6 +140,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
     TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
     
     if (_downloadModel1.state == TYDownLoadStateReadying) {
+        [manager cancleWithDownloadModel:_downloadModel1];
         return;
     }
     
@@ -177,6 +179,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
     TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
     
     if (_downloadModel2.state == TYDownLoadStateReadying) {
+        [manager cancleWithDownloadModel:_downloadModel2];
         return;
     }
     

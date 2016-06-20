@@ -105,6 +105,7 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
     TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
     
     if (_downloadModel.state == TYDownLoadStateReadying) {
+        [manager cancleWithDownloadModel:_downloadModel];
         return;
     }
     
@@ -141,6 +142,7 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
     TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
     
     if (_downloadModel1.state == TYDownLoadStateReadying) {
+         [manager cancleWithDownloadModel:_downloadModel1];
         return;
     }
     
@@ -150,6 +152,7 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
     
     if (_downloadModel1.state == TYDownLoadStateRunning) {
         [manager suspendWithDownloadModel:_downloadModel1];
+        //[manager cancleWithDownloadModel:_downloadModel1];
         return;
     }
     
@@ -179,6 +182,7 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
     TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
     
     if (_downloadModel2.state == TYDownLoadStateReadying) {
+        [manager cancleWithDownloadModel:_downloadModel2];
         return;
     }
     

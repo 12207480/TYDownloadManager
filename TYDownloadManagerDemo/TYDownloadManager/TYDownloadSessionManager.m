@@ -298,14 +298,42 @@
 // 删除下载
 - (void)deleteFileWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
-    if (downloadModel.state != TYDownLoadStateCompleted && downloadModel.state != TYDownLoadStateFailed){
-        [self cancleWithDownloadModel:downloadModel clearResumeData:YES];
-        [self deleteFileIfExist:downloadModel.filePath];
+    if (!downloadModel || !downloadModel.filePath) {
+        return;
     }
+    
+    [self cancleWithDownloadModel:downloadModel clearResumeData:YES];
+    [self deleteFileIfExist:downloadModel.filePath];
+}
+
+- (void)deleteAllFileWithDownloadDirectory:(NSString *)downloadDirectory
+{
+    if (!downloadDirectory) {
+        downloadDirectory = self.downloadDirectory;
+    }
+    
+     for (TYDownLoadModel *downloadModel in [self.downloadingModelDic allValues]) {
+          if ([downloadModel.downloadDirectory isEqualToString:downloadDirectory]) {
+              [self cancleWithDownloadModel:downloadModel clearResumeData:YES];
+          }
+     }
+    // 删除沙盒中所有资源
+    [self.fileManager removeItemAtPath:downloadDirectory error:nil];
 }
 
 - (void)cancleWithDownloadModel:(TYDownLoadModel *)downloadModel clearResumeData:(BOOL)clearResumeData
 {
+    if (!downloadModel.task && downloadModel.state == TYDownLoadStateReadying) {
+        [self removeDownLoadingModelForURLString:downloadModel.downloadURL];
+        @synchronized (self) {
+            [self.waitingDownloadModels removeObject:downloadModel];
+        }
+        downloadModel.state = TYDownLoadStateNone;
+        if (downloadModel.stateBlock) {
+            downloadModel.stateBlock(TYDownLoadStateNone,nil,nil);
+        }
+        return;
+    }
     if (clearResumeData) {
         downloadModel.resumeData = nil;
         [downloadModel.task cancel];

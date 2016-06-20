@@ -324,6 +324,18 @@
 
 - (void)cancleWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
+    if (!downloadModel.task && downloadModel.state == TYDownLoadStateReadying) {
+        [self removeDownLoadingModelForURLString:downloadModel.downloadURL];
+        @synchronized (self) {
+            [self.waitingDownloadModels removeObject:downloadModel];
+        }
+        downloadModel.state = TYDownLoadStateNone;
+        if (downloadModel.stateBlock) {
+            downloadModel.stateBlock(TYDownLoadStateNone,nil,nil);
+        }
+        return;
+    }
+    
     if (downloadModel.state != TYDownLoadStateCompleted && downloadModel.state != TYDownLoadStateFailed){
         [downloadModel.task cancel];
     }
