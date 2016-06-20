@@ -7,9 +7,8 @@
 //
 
 #import "DownloadDataViewController.h"
-//#import "TYDownLoadDataManager.h"
+#import "TYDownLoadDataManager.h"
 #import "TYDownLoadUtility.h"
-#import "TYDownloadSessionManager.h"
 #import <MediaPlayer/MediaPlayer.h>
 
 @interface DownloadDataViewController ()
@@ -34,16 +33,16 @@
 @property (nonatomic,strong) MPMoviePlayerViewController *moviePlayerViewController;
 @end
 
-static NSString * const downloadUrl = @"http://down.233.com/2014_2015/2014/jzs1/jingji_zhenti_yjw/6-qllgl2v5x9b80vvgwgzzlnzydkj1bpr66hnool80.mp4";
-static NSString * const downloadUrl1 = @"http://down.233.com/2014a/cy/caijingfagui_jingjiang_quanguoban_mj/2-67fhxrzsawvhojeo5gpsxrafqnc82chu9kop0syla.mp4";
-static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfagui_jingjiang_quanguoban_mj/10-607tmjbtijcoglgg5n4dlhgbnqipym23sw2fnvqaf.mp4";
+static NSString * const downloadUrl = @"http://baobab.wdjcdn.com/1456117847747a_x264.mp4";
+static NSString * const downloadUrl1 = @"http://baobab.wdjcdn.com/14525705791193.mp4";
+static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808howtoloseweight_x264.mp4";
 
 @implementation DownloadDataViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
+    self.title = @"DownloadDataViewControllerDemo";
     [self refreshDowloadInfo];
     [self refreshDowloadInfo1];
     [self refreshDowloadInfo2];
@@ -52,60 +51,45 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
 - (void)refreshDowloadInfo
 {
     TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl];
-//    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
-//    
-//    self.progressLabel.text = [self detailTextForDownloadProgress:progress];
-//    self.progressView.progress = progress.progress;
-    [self.downloadBtn setTitle:[[TYDownloadSessionManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
-    _downloadModel = model;
+    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
     
-    if (!_downloadModel.task && [[TYDownloadSessionManager manager] backgroundSessionTasksWithDownloadModel:_downloadModel]) {
-        [self download:nil];
-    }
+    self.progressLabel.text = [self detailTextForDownloadProgress:progress];
+    self.progressView.progress = progress.progress;
+    [self.downloadBtn setTitle:[[TYDownLoadDataManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
+    _downloadModel = model;
 }
 
 - (void)refreshDowloadInfo1
 {
     TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl1];
-//    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
-//    
-//    self.progressLabel1.text = [self detailTextForDownloadProgress:progress];
-//    self.progressView1.progress = progress.progress;
-    [self.downloadBtn1 setTitle:[[TYDownloadSessionManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
-    _downloadModel1 = model;
+    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
     
-    if (!_downloadModel1.task && [[TYDownloadSessionManager manager] backgroundSessionTasksWithDownloadModel:_downloadModel1]) {
-        [self download1:nil];
-    }
+    self.progressLabel1.text = [self detailTextForDownloadProgress:progress];
+    self.progressView1.progress = progress.progress;
+    [self.downloadBtn1 setTitle:[[TYDownLoadDataManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
+    _downloadModel1 = model;
 }
 
 - (void)refreshDowloadInfo2
 {
     TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl2];
-//    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
-//    
-//    self.progressLabel2.text = [self detailTextForDownloadProgress:progress];
-//    self.progressView2.progress = progress.progress;
-    [self.downloadBtn2 setTitle:[[TYDownloadSessionManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
-    _downloadModel2 = model;
+    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
     
-    if (!_downloadModel2.task && [[TYDownloadSessionManager manager] backgroundSessionTasksWithDownloadModel:_downloadModel2]) {
-        [self download2:nil];
-    }
+    self.progressLabel2.text = [self detailTextForDownloadProgress:progress];
+    self.progressView2.progress = progress.progress;
+    [self.downloadBtn2 setTitle:[[TYDownLoadDataManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
+    _downloadModel2 = model;
 }
 
 - (IBAction)download:(id)sender {
-    TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
+    TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
     
     if (_downloadModel.state == TYDownLoadStateReadying) {
         return;
     }
     
     if ([manager isDownloadCompletedWithDownloadModel:_downloadModel]) {
-//        _moviePlayerViewController=[[MPMoviePlayerViewController alloc]initWithContentURL:[NSURL fileURLWithPath:_downloadModel.filePath]];
-//        [self presentMoviePlayerViewControllerAnimated:_moviePlayerViewController];
         [manager deleteFileWithDownloadModel:_downloadModel];
-        return;
     }
     
     if (_downloadModel.state == TYDownLoadStateRunning) {
@@ -130,17 +114,14 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
 }
 
 - (IBAction)download1:(id)sender {
-    TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
+    TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
     
     if (_downloadModel1.state == TYDownLoadStateReadying) {
         return;
     }
     
     if ([manager isDownloadCompletedWithDownloadModel:_downloadModel1]) {
-//        _moviePlayerViewController=[[MPMoviePlayerViewController alloc]initWithContentURL:[NSURL fileURLWithPath:_downloadModel1.filePath]];
-//        [self presentMoviePlayerViewControllerAnimated:_moviePlayerViewController];
         [manager deleteFileWithDownloadModel:_downloadModel1];
-        return;
     }
     
     if (_downloadModel1.state == TYDownLoadStateRunning) {
@@ -165,7 +146,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
 }
 
 - (IBAction)download2:(id)sender {
-    TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
+    TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
     
     if (_downloadModel2.state == TYDownLoadStateReadying) {
         return;

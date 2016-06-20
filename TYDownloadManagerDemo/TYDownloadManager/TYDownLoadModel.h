@@ -57,6 +57,8 @@ typedef void (^TYDownloadStateBlock)(TYDownLoadState state,NSString *filePath, N
 // 下载状态更新block
 @property (nonatomic, copy) TYDownloadStateBlock stateBlock;
 
+
+- (instancetype)initWithURLString:(NSString *)URLString;
 /**
  *  初始化方法
  *
@@ -64,8 +66,6 @@ typedef void (^TYDownloadStateBlock)(TYDownLoadState state,NSString *filePath, N
  *  @param filePath  缓存地址 当为nil 默认缓存到cache
  */
 - (instancetype)initWithURLString:(NSString *)URLString filePath:(NSString *)filePath;
-
-- (instancetype)initWithURLString:(NSString *)URLString;
 
 @end
 

@@ -28,6 +28,7 @@
 // 全部并发 默认NO, 当YES时，忽略maxDownloadCount
 @property (nonatomic, assign) BOOL isBatchDownload;
 
+// 后台session configure
 @property (nonatomic, strong) NSString *backgroundConfigure;
 @property (nonatomic, copy) void (^backgroundSessionCompletionHandler)();
 

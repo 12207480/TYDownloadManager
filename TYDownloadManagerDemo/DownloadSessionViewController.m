@@ -43,7 +43,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
+    self.title = @"DownloadSessionViewControllerDemo";
     [self refreshDowloadInfo];
     [self refreshDowloadInfo1];
     [self refreshDowloadInfo2];
@@ -102,10 +102,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
     }
     
     if ([manager isDownloadCompletedWithDownloadModel:_downloadModel]) {
-//        _moviePlayerViewController=[[MPMoviePlayerViewController alloc]initWithContentURL:[NSURL fileURLWithPath:_downloadModel.filePath]];
-//        [self presentMoviePlayerViewControllerAnimated:_moviePlayerViewController];
         [manager deleteFileWithDownloadModel:_downloadModel];
-        return;
     }
     
     if (_downloadModel.state == TYDownLoadStateRunning) {
@@ -137,10 +134,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
     }
     
     if ([manager isDownloadCompletedWithDownloadModel:_downloadModel1]) {
-//        _moviePlayerViewController=[[MPMoviePlayerViewController alloc]initWithContentURL:[NSURL fileURLWithPath:_downloadModel1.filePath]];
-//        [self presentMoviePlayerViewControllerAnimated:_moviePlayerViewController];
         [manager deleteFileWithDownloadModel:_downloadModel1];
-        return;
     }
     
     if (_downloadModel1.state == TYDownLoadStateRunning) {

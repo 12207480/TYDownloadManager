@@ -59,13 +59,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="X2k-0i-0NA">
-                                <rect key="frame" x="225" y="144" width="150" height="2"/>
+                                <rect key="frame" x="225" y="184" width="150" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="gUs-3l-J29"/>
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKm-Im-P7x">
-                                <rect key="frame" x="285" y="166" width="30" height="30"/>
+                                <rect key="frame" x="285" y="206" width="30" height="30"/>
                                 <state key="normal" title="开始"/>
                                 <state key="selected" title="暂停"/>
                                 <connections>
@@ -73,13 +73,13 @@
                                 </connections>
                             </button>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="axv-fp-YlG">
-                                <rect key="frame" x="225" y="254" width="150" height="2"/>
+                                <rect key="frame" x="225" y="294" width="150" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="LgA-qC-E5g"/>
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alW-rD-Lwc">
-                                <rect key="frame" x="285" y="276" width="30" height="30"/>
+                                <rect key="frame" x="285" y="316" width="30" height="30"/>
                                 <state key="normal" title="开始"/>
                                 <state key="selected" title="暂停"/>
                                 <connections>
@@ -87,19 +87,19 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4fe-kV-djb">
-                                <rect key="frame" x="272" y="222" width="57" height="17"/>
+                                <rect key="frame" x="272" y="262" width="57" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cQs-zv-ukC">
-                                <rect key="frame" x="225" y="363" width="150" height="2"/>
+                                <rect key="frame" x="225" y="403" width="150" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="GDm-Fk-F4E"/>
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxS-0d-DjA">
-                                <rect key="frame" x="285" y="385" width="30" height="30"/>
+                                <rect key="frame" x="285" y="425" width="30" height="30"/>
                                 <state key="normal" title="开始"/>
                                 <state key="selected" title="暂停"/>
                                 <connections>
@@ -107,13 +107,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2XV-7r-udB">
-                                <rect key="frame" x="272" y="331" width="57" height="17"/>
+                                <rect key="frame" x="272" y="371" width="57" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fes-VX-Jvn">
-                                <rect key="frame" x="272" y="112" width="57" height="17"/>
+                                <rect key="frame" x="272" y="152" width="57" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -125,7 +125,7 @@
                             <constraint firstItem="alW-rD-Lwc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3YG-jI-8ZW"/>
                             <constraint firstItem="cQs-zv-ukC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="43S-yr-05C"/>
                             <constraint firstItem="axv-fp-YlG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4xR-BL-4np"/>
-                            <constraint firstItem="X2k-0i-0NA" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="80" id="7Ne-IC-dGH"/>
+                            <constraint firstItem="X2k-0i-0NA" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="120" id="7Ne-IC-dGH"/>
                             <constraint firstItem="XKm-Im-P7x" firstAttribute="top" secondItem="X2k-0i-0NA" secondAttribute="bottom" constant="20" id="8Kr-LS-GYm"/>
                             <constraint firstItem="dxS-0d-DjA" firstAttribute="top" secondItem="cQs-zv-ukC" secondAttribute="bottom" constant="20" id="8jh-7t-QkM"/>
                             <constraint firstItem="X2k-0i-0NA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="D0G-Of-tiI"/>
@@ -188,13 +188,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fqg-so-ejA">
-                                <rect key="frame" x="225" y="144" width="150" height="2"/>
+                                <rect key="frame" x="225" y="184" width="150" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="Po4-4b-TXh"/>
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aaQ-lp-sd2">
-                                <rect key="frame" x="285" y="166" width="30" height="30"/>
+                                <rect key="frame" x="285" y="206" width="30" height="30"/>
                                 <state key="normal" title="开始"/>
                                 <state key="selected" title="暂停"/>
                                 <connections>
@@ -202,13 +202,13 @@
                                 </connections>
                             </button>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ny6-O7-BsY">
-                                <rect key="frame" x="225" y="254" width="150" height="2"/>
+                                <rect key="frame" x="225" y="294" width="150" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="p6N-DP-wZk"/>
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONW-mB-4Ld">
-                                <rect key="frame" x="285" y="276" width="30" height="30"/>
+                                <rect key="frame" x="285" y="316" width="30" height="30"/>
                                 <state key="normal" title="开始"/>
                                 <state key="selected" title="暂停"/>
                                 <connections>
@@ -216,19 +216,19 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WAB-vy-5dB">
-                                <rect key="frame" x="272" y="222" width="57" height="17"/>
+                                <rect key="frame" x="272" y="262" width="57" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="u6V-Tc-Rjl">
-                                <rect key="frame" x="225" y="363" width="150" height="2"/>
+                                <rect key="frame" x="225" y="403" width="150" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="Y5Q-nO-rg7"/>
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2UK-ng-YHy">
-                                <rect key="frame" x="285" y="385" width="30" height="30"/>
+                                <rect key="frame" x="285" y="425" width="30" height="30"/>
                                 <state key="normal" title="开始"/>
                                 <state key="selected" title="暂停"/>
                                 <connections>
@@ -236,13 +236,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dqu-DR-uc1">
-                                <rect key="frame" x="272" y="331" width="57" height="17"/>
+                                <rect key="frame" x="272" y="371" width="57" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n53-vS-5mi">
-                                <rect key="frame" x="272" y="112" width="57" height="17"/>
+                                <rect key="frame" x="272" y="152" width="57" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -266,7 +266,7 @@
                             <constraint firstItem="u6V-Tc-Rjl" firstAttribute="centerX" secondItem="7KJ-ib-xn7" secondAttribute="centerX" id="isY-gx-lUr"/>
                             <constraint firstItem="2UK-ng-YHy" firstAttribute="top" secondItem="u6V-Tc-Rjl" secondAttribute="bottom" constant="20" id="tGU-hJ-iZL"/>
                             <constraint firstItem="dqu-DR-uc1" firstAttribute="top" secondItem="ONW-mB-4Ld" secondAttribute="bottom" constant="25" id="w8j-wZ-Inw"/>
-                            <constraint firstItem="Fqg-so-ejA" firstAttribute="top" secondItem="4WR-ke-xGc" secondAttribute="bottom" constant="80" id="xAj-4l-Qff"/>
+                            <constraint firstItem="Fqg-so-ejA" firstAttribute="top" secondItem="4WR-ke-xGc" secondAttribute="bottom" constant="120" id="xAj-4l-Qff"/>
                             <constraint firstItem="dqu-DR-uc1" firstAttribute="centerX" secondItem="7KJ-ib-xn7" secondAttribute="centerX" id="xXS-WK-5SG"/>
                         </constraints>
                     </view>
