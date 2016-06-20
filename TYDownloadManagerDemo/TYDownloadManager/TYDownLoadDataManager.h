@@ -12,7 +12,7 @@
 /**
  *  下载管理类 使用NSURLSessionDataTask
  */
-@interface TYDownLoadDataManager : NSObject <NSURLSessionDelegate>
+@interface TYDownLoadDataManager : NSObject <NSURLSessionDataDelegate>
 
 // 下载中的模型 只读
 @property (nonatomic, strong,readonly) NSMutableArray *waitingDownloadModels;

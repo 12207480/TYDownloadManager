@@ -278,8 +278,6 @@
         return;
     }
     
-    NSLog(@"下载个数%ld,等待个数%ld",self.downloadingModels.count,self.waitingDownloadModels.count);
-    
     // 创建目录
     [self createDirectory:_downloadDirectory];
     [self createDirectory:downloadModel.downloadDirectory];
@@ -288,7 +286,6 @@
     if (!downloadModel.task || downloadModel.task.state == NSURLSessionTaskStateCanceling) {
         NSString *URLString = downloadModel.downloadURL;
         
-        //NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:self.queue];
         // 创建请求
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
         
