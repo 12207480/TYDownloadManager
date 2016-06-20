@@ -50,6 +50,14 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
 
 - (void)refreshDowloadInfo
 {
+    // manager里面是否有这个model是正在下载
+    _downloadModel = [[TYDownLoadDataManager manager] downLoadingModelForURLString:downloadUrl];
+    if (_downloadModel) {
+        [self startDownlaod];
+        return;
+    }
+    
+    // 没有正在下载的model 重新创建
     TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl];
     TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
     
@@ -61,6 +69,12 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
 
 - (void)refreshDowloadInfo1
 {
+    _downloadModel1 = [[TYDownLoadDataManager manager] downLoadingModelForURLString:downloadUrl1];
+    if (_downloadModel1) {
+        [self startDownlaod1];
+        return;
+    }
+    
     TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl1];
     TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
     
@@ -72,6 +86,12 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
 
 - (void)refreshDowloadInfo2
 {
+    _downloadModel2 = [[TYDownLoadDataManager manager] downLoadingModelForURLString:downloadUrl2];
+    if (_downloadModel2) {
+        [self startDownlaod2];
+        return;
+    }
+    
     TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl2];
     TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
     
@@ -96,7 +116,12 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
         [manager suspendWithDownloadModel:_downloadModel];
         return;
     }
-    
+    [self startDownlaod];
+}
+
+- (void)startDownlaod
+{
+    TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
     [manager startWithDownloadModel:_downloadModel progress:^(TYDownloadProgress *progress) {
         self.progressView.progress = progress.progress;
         self.progressLabel.text = [self detailTextForDownloadProgress:progress];
@@ -112,7 +137,6 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
         NSLog(@"state %ld error%@ filePath%@",state,error,filePath);
     }];
 }
-
 - (IBAction)download1:(id)sender {
     TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
     
@@ -129,6 +153,12 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
         return;
     }
     
+    [self startDownlaod1];
+}
+
+- (void)startDownlaod1
+{
+    TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
     [manager startWithDownloadModel:_downloadModel1 progress:^(TYDownloadProgress *progress) {
         self.progressView1.progress = progress.progress;
         self.progressLabel1.text = [self detailTextForDownloadProgress:progress];
@@ -164,6 +194,12 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
         return;
     }
     
+    [self startDownlaod2];
+}
+
+- (void)startDownlaod2
+{
+    TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
     [manager startWithDownloadModel:_downloadModel2 progress:^(TYDownloadProgress *progress) {
         self.progressView2.progress = progress.progress;
         self.progressLabel2.text = [self detailTextForDownloadProgress:progress];
@@ -179,7 +215,6 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
         NSLog(@"state %ld error%@ filePath%@",state,error,filePath);
     }];
 }
-
 
 - (NSString *)detailTextForDownloadProgress:(TYDownloadProgress *)progress
 {

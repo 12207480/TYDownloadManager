@@ -191,7 +191,14 @@
 
 - (void)startWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
-    if (!downloadModel || downloadModel.state == TYDownLoadStateReadying) {
+    if (!downloadModel) {
+        return;
+    }
+    
+    if (downloadModel.state == TYDownLoadStateReadying) {
+        if (downloadModel.stateBlock) {
+            downloadModel.stateBlock(TYDownLoadStateReadying,nil,nil);
+        }
         return;
     }
     
@@ -207,6 +214,9 @@
     // 验证是否存在
     if (downloadModel.task && downloadModel.task.state == NSURLSessionTaskStateRunning) {
         downloadModel.state = TYDownLoadStateRunning;
+        if (downloadModel.stateBlock) {
+            downloadModel.stateBlock(TYDownLoadStateRunning,nil,nil);
+        }
         return;
     }
     
@@ -239,10 +249,10 @@
             if ([self.waitingDownloadModels indexOfObject:downloadModel] == NSNotFound) {
                 [self.waitingDownloadModels addObject:downloadModel];
                 self.downloadingModelDic[downloadModel.downloadURL] = downloadModel;
-                downloadModel.state = TYDownLoadStateReadying;
-                if (downloadModel.stateBlock) {
-                    downloadModel.stateBlock(TYDownLoadStateReadying,nil,nil);
-                }
+            }
+            downloadModel.state = TYDownLoadStateReadying;
+            if (downloadModel.stateBlock) {
+                downloadModel.stateBlock(TYDownLoadStateReadying,nil,nil);
             }
             return NO;
         }

@@ -51,11 +51,13 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
 
 - (void)refreshDowloadInfo
 {
+    // manager里面是否有这个model是正在下载
+    _downloadModel = [[TYDownloadSessionManager manager] downLoadingModelForURLString:downloadUrl];
+    if (_downloadModel) {
+        [self startDownlaod];
+        return;
+    }
     TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl];
-//    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
-//    
-//    self.progressLabel.text = [self detailTextForDownloadProgress:progress];
-//    self.progressView.progress = progress.progress;
     [self.downloadBtn setTitle:[[TYDownloadSessionManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
     _downloadModel = model;
     
@@ -66,11 +68,12 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
 
 - (void)refreshDowloadInfo1
 {
+    _downloadModel1 = [[TYDownloadSessionManager manager] downLoadingModelForURLString:downloadUrl1];
+    if (_downloadModel1) {
+        [self startDownlaod1];
+        return;
+    }
     TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl1];
-//    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
-//    
-//    self.progressLabel1.text = [self detailTextForDownloadProgress:progress];
-//    self.progressView1.progress = progress.progress;
     [self.downloadBtn1 setTitle:[[TYDownloadSessionManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
     _downloadModel1 = model;
     
@@ -81,11 +84,12 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
 
 - (void)refreshDowloadInfo2
 {
+    _downloadModel2 = [[TYDownloadSessionManager manager] downLoadingModelForURLString:downloadUrl2];
+    if (_downloadModel2) {
+        [self startDownlaod2];
+        return;
+    }
     TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl2];
-//    TYDownloadProgress *progress = [[TYDownLoadDataManager manager]progessWithDownloadModel:model];
-//    
-//    self.progressLabel2.text = [self detailTextForDownloadProgress:progress];
-//    self.progressView2.progress = progress.progress;
     [self.downloadBtn2 setTitle:[[TYDownloadSessionManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
     _downloadModel2 = model;
     
@@ -109,7 +113,12 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         [manager suspendWithDownloadModel:_downloadModel];
         return;
     }
-    
+    [self startDownlaod];
+}
+
+- (void)startDownlaod
+{
+    TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
     [manager startWithDownloadModel:_downloadModel progress:^(TYDownloadProgress *progress) {
         self.progressView.progress = progress.progress;
         self.progressLabel.text = [self detailTextForDownloadProgress:progress];
@@ -142,6 +151,12 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         return;
     }
     
+    [self startDownlaod1];
+}
+
+- (void)startDownlaod1
+{
+    TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
     [manager startWithDownloadModel:_downloadModel1 progress:^(TYDownloadProgress *progress) {
         self.progressView1.progress = progress.progress;
         self.progressLabel1.text = [self detailTextForDownloadProgress:progress];
@@ -176,7 +191,12 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         [manager suspendWithDownloadModel:_downloadModel2];
         return;
     }
-    
+    [self startDownlaod2];
+}
+
+- (void)startDownlaod2
+{
+    TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
     [manager startWithDownloadModel:_downloadModel2 progress:^(TYDownloadProgress *progress) {
         self.progressView2.progress = progress.progress;
         self.progressLabel2.text = [self detailTextForDownloadProgress:progress];
@@ -191,8 +211,8 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         
         NSLog(@"state %ld error%@ filePath%@",state,error,filePath);
     }];
-}
 
+}
 
 - (NSString *)detailTextForDownloadProgress:(TYDownloadProgress *)progress
 {
