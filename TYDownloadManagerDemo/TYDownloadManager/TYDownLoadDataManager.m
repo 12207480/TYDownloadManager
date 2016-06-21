@@ -278,10 +278,6 @@
         return;
     }
     
-    // 创建目录
-    [self createDirectory:_downloadDirectory];
-    [self createDirectory:downloadModel.downloadDirectory];
-    
     // 如果task 不存在 或者 取消了
     if (!downloadModel.task || downloadModel.task.state == NSURLSessionTaskStateCanceling) {
         NSString *URLString = downloadModel.downloadURL;
@@ -485,6 +481,11 @@
     if (!downloadModel) {
         return;
     }
+    
+    // 创建目录
+    [self createDirectory:_downloadDirectory];
+    [self createDirectory:downloadModel.downloadDirectory];
+    
     // 打开流
     [downloadModel.stream open];
     
@@ -533,7 +534,7 @@
     downloadModel.progress.remainingTime = (int)(remainingContentLength / downloadModel.progress.speed);
     
     dispatch_async(dispatch_get_main_queue(), ^(){
-        if (downloadModel.progress) {
+        if (downloadModel.progressBlock) {
             downloadModel.progressBlock(downloadModel.progress);
         }
     });

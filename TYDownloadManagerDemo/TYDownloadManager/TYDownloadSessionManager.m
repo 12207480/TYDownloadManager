@@ -148,8 +148,6 @@
 {
     if (!_downloadDirectory) {
         _downloadDirectory = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"TYDownloadCache"];
-        [self createDirectory:_downloadDirectory];
-        NSLog(@"downloadDirectory %@",_downloadDirectory);
     }
     return _downloadDirectory;
 }
@@ -229,9 +227,6 @@
         }
         return;
     }
-    
-    [self createDirectory:_downloadDirectory];
-    [self createDirectory:downloadModel.downloadDirectory];
     
     // 后台下载设置
     [self configirebackgroundSessionTasksWithDownloadModel:downloadModel];
@@ -412,8 +407,7 @@
     NSArray *tasks = [self sessionDownloadTasks];
     for (NSURLSessionDownloadTask *task in tasks) {
         if (task.state == NSURLSessionTaskStateRunning || task.state == NSURLSessionTaskStateSuspended) {
-            NSString *taskInfo = downloadModel.downloadURL;
-            if ([taskInfo isEqualToString:task.taskDescription]) {
+            if ([downloadModel.downloadURL isEqualToString:task.taskDescription]) {
                 return task;
             }
         }
@@ -423,21 +417,12 @@
 
 - (NSArray *)sessionDownloadTasks
 {
-    return [self tasksForKeyPath:@"sessionDownloadTasks"];
-}
-
-- (NSArray *)tasksForKeyPath:(NSString *)keyPath
-{
     __block NSArray *tasks = nil;
     dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     [self.session getTasksWithCompletionHandler:^(NSArray *dataTasks, NSArray *uploadTasks, NSArray *downloadTasks) {
-        if ([keyPath isEqualToString:@"sessionDownloadTasks"]) {
-            tasks = downloadTasks;
-        }
-        
+        tasks = downloadTasks;
         dispatch_semaphore_signal(semaphore);
     }];
-    
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     return tasks;
 }
@@ -608,6 +593,7 @@ didFinishDownloadingToURL:(NSURL *)location
     if (!downloadModel && _backgroundSessionDownloadCompleteBlock) {
         NSString *filePath = _backgroundSessionDownloadCompleteBlock(downloadTask.taskDescription);
         // 移动文件到下载目录
+        [self createDirectory:filePath.stringByDeletingLastPathComponent];
         [self moveFileAtURL:location toPath:filePath];
         return;
     }
@@ -623,6 +609,8 @@ didFinishDownloadingToURL:(NSURL *)location
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
 {
     TYDownLoadModel *downloadModel = [self downLoadingModelForURLString:task.taskDescription];
+    
+    [self createDirectory:_downloadDirectory];
     
     if (!downloadModel) {
         NSData *resumeData = error ? [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData]:nil;
