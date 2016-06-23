@@ -148,6 +148,7 @@
 {
     if (!_downloadDirectory) {
         _downloadDirectory = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"TYDownloadCache"];
+        [self createDirectory:_downloadDirectory];
     }
     return _downloadDirectory;
 }
@@ -178,6 +179,7 @@
 
 #pragma mark - downlaod
 
+// 开始下载
 - (TYDownLoadModel *)startDownloadURLString:(NSString *)URLString toDestinationPath:(NSString *)destinationPath progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state
 {
     // 验证下载地址
@@ -234,6 +236,7 @@
     [self resumeWithDownloadModel:downloadModel];
 }
 
+// 恢复下载
 - (void)resumeWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
     if (!downloadModel) {
@@ -249,7 +252,7 @@
         
         NSData *resumeData = [self resumeDataFromFileWithDownloadModel:downloadModel];
         
-        if (resumeData) {
+        if ([self isValideResumeData:resumeData]) {
             downloadModel.task = [self.session downloadTaskWithResumeData:resumeData];
         }else {
             NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:downloadModel.downloadURL]];
@@ -275,6 +278,15 @@
     }
 }
 
+- (BOOL)isValideResumeData:(NSData *)resumeData
+{
+    if (!resumeData || resumeData.length == 0) {
+        return NO;
+    }
+    return YES;
+}
+
+// 暂停下载
 - (void)suspendWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
     if (!downloadModel.manualCancle) {
@@ -283,6 +295,7 @@
     }
 }
 
+// 取消下载
 - (void)cancleWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
     if (downloadModel.state != TYDownLoadStateCompleted && downloadModel.state != TYDownLoadStateFailed){
@@ -316,6 +329,7 @@
     [self.fileManager removeItemAtPath:downloadDirectory error:nil];
 }
 
+// 取消下载 是否删除resumeData
 - (void)cancleWithDownloadModel:(TYDownLoadModel *)downloadModel clearResumeData:(BOOL)clearResumeData
 {
     if (!downloadModel.task && downloadModel.state == TYDownLoadStateReadying) {
@@ -385,6 +399,7 @@
 
 #pragma mark - configire background task
 
+// 配置后台后台下载session
 - (void)configirebackgroundSessionTasksWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
     if (!_backgroundConfigure) {
@@ -415,6 +430,7 @@
     return nil;
 }
 
+// 获取所以的后台下载session
 - (NSArray *)sessionDownloadTasks
 {
     __block NSArray *tasks = nil;
@@ -461,6 +477,7 @@
     [self.downloadingModelDic removeObjectForKey:URLString];
 }
 
+// 获取resumeData
 - (NSData *)resumeDataFromFileWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
     if (downloadModel.resumeData) {
@@ -537,6 +554,7 @@
 
 #pragma mark - NSURLSessionDownloadDelegate
 
+// 恢复下载
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes
 {
     TYDownLoadModel *downloadModel = [self downLoadingModelForURLString:downloadTask.taskDescription];
@@ -610,11 +628,10 @@ didFinishDownloadingToURL:(NSURL *)location
 {
     TYDownLoadModel *downloadModel = [self downLoadingModelForURLString:task.taskDescription];
     
-    [self createDirectory:_downloadDirectory];
-    
     if (!downloadModel) {
         NSData *resumeData = error ? [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData]:nil;
         if (resumeData) {
+            [self createDirectory:_downloadDirectory];
             [resumeData writeToFile:[self resumeDataPathWithDownloadURL:task.taskDescription] atomically:YES];
         }else {
             [self deleteFileIfExist:[self resumeDataPathWithDownloadURL:task.taskDescription]];
@@ -625,6 +642,7 @@ didFinishDownloadingToURL:(NSURL *)location
     if (error) {
         downloadModel.progress.resumeBytesWritten = 0;
         downloadModel.resumeData = [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
+        [self createDirectory:_downloadDirectory];
         [downloadModel.resumeData writeToFile:[self resumeDataPathWithDownloadURL:downloadModel.downloadURL] atomically:YES];
     } else {
         downloadModel.resumeData = nil;
@@ -665,6 +683,7 @@ didFinishDownloadingToURL:(NSURL *)location
 
 }
 
+// 后台session下载完成
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
 {
     if (self.backgroundSessionCompletionHandler) {

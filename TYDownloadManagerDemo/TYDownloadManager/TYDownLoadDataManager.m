@@ -130,11 +130,13 @@
     return _downloadDirectory;
 }
 
+// 下载文件信息plist路径
 - (NSString *)fileSizePathWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
     return [downloadModel.downloadDirectory stringByAppendingPathComponent:@"downloadsFileSize.plist"];
 }
 
+// 下载model字典
 - (NSMutableDictionary *)downloadingModelDic
 {
     if (!_downloadingModelDic) {
@@ -143,6 +145,7 @@
     return _downloadingModelDic;
 }
 
+// 等待下载model队列
 - (NSMutableArray *)waitingDownloadModels
 {
     if (!_waitingDownloadModels) {
@@ -151,6 +154,7 @@
     return _waitingDownloadModels;
 }
 
+// 正在下载model队列
 - (NSMutableArray *)downloadingModels
 {
     if (!_downloadingModels) {
@@ -162,6 +166,7 @@
 
 #pragma mark - downlaod
 
+// 开始下载
 - (TYDownLoadModel *)startDownloadURLString:(NSString *)URLString toDestinationPath:(NSString *)destinationPath progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state
 {
     // 验证下载地址
@@ -223,6 +228,7 @@
     [self resumeWithDownloadModel:downloadModel];
 }
 
+// 自动下载下一个等待队列任务
 - (void)willResumeNextWithDowloadModel:(TYDownLoadModel *)downloadModel
 {
     if (_isBatchDownload) {
@@ -238,6 +244,7 @@
     }
 }
 
+// 是否开启下载等待队列任务
 - (BOOL)canResumeDownlaodModel:(TYDownLoadModel *)downloadModel
 {
     if (_isBatchDownload) {
@@ -268,6 +275,7 @@
     }
 }
 
+// 恢复下载
 - (void)resumeWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
     if (!downloadModel) {
@@ -307,6 +315,7 @@
     }
 }
 
+// 暂停下载
 - (void)suspendWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
     if (!downloadModel.manualCancle) {
@@ -315,6 +324,7 @@
     }
 }
 
+// 取消下载
 - (void)cancleWithDownloadModel:(TYDownLoadModel *)downloadModel
 {
     if (!downloadModel.task && downloadModel.state == TYDownLoadStateReadying) {

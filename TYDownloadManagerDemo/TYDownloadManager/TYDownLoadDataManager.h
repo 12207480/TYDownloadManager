@@ -16,6 +16,7 @@
 
 // 下载中的模型 只读
 @property (nonatomic, strong,readonly) NSMutableArray *waitingDownloadModels;
+
 // 等待中的模型 只读
 @property (nonatomic, strong,readonly) NSMutableArray *downloadingModels;
 
