@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "TYDownloadModel.h"
+#import "TYDownloadDelegate.h"
 
 /**
  *  下载管理类 使用NSURLSessionDataTask
  */
 @interface TYDownloadSessionManager : NSObject<NSURLSessionDownloadDelegate>
+
+// 下载代理
+@property (nonatomic,weak) id<TYDownloadDelegate> delegate;
 
 // 下载中的模型 只读
 @property (nonatomic, strong,readonly) NSMutableArray *waitingDownloadModels;

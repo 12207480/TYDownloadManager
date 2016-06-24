@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "TYDownloadModel.h"
+#import "TYDownloadDelegate.h"
 
 /**
  *  下载管理类 使用NSURLSessionDataTask
  */
 @interface TYDownLoadDataManager : NSObject <NSURLSessionDataDelegate>
+
+// 下载代理
+@property (nonatomic,weak) id<TYDownloadDelegate> delegate;
 
 // 下载中的模型 只读
 @property (nonatomic, strong,readonly) NSMutableArray *waitingDownloadModels;
@@ -36,10 +40,10 @@
 - (TYDownloadModel *)startDownloadURLString:(NSString *)URLString toDestinationPath:(NSString *)destinationPath progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state;
 
 // 开始下载
-- (void)startWithDownloadModel:(TYDownloadModel *)downloadModel;
+- (void)startWithDownloadModel:(TYDownloadModel *)downloadModel progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state;
 
 // 开始下载
-- (void)startWithDownloadModel:(TYDownloadModel *)downloadModel progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state;
+- (void)startWithDownloadModel:(TYDownloadModel *)downloadModel;
 
 // 恢复下载（除非确定对这个model进行了suspend，否则使用start）
 - (void)resumeWithDownloadModel:(TYDownloadModel *)downloadModel;
@@ -59,7 +63,7 @@
 // 获取正在下载模型
 - (TYDownloadModel *)downLoadingModelForURLString:(NSString *)URLString;
 
-// 获取本地下载模型的进度 
+// 获取本地下载模型的进度
 - (TYDownloadProgress *)progessWithDownloadModel:(TYDownloadModel *)downloadModel;
 
 // 是否已经下载

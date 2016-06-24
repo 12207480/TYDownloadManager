@@ -11,7 +11,7 @@
 #import "TYDownLoadUtility.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface DownloadDataViewController ()
+@interface DownloadDataViewController ()<TYDownloadDelegate>
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UIButton *downloadBtn;
@@ -43,6 +43,7 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.title = @"DownloadDataViewControllerDemo";
+    [TYDownLoadDataManager manager].delegate = self;
     [self refreshDowloadInfo];
     [self refreshDowloadInfo1];
     [self refreshDowloadInfo2];
@@ -123,19 +124,20 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
 - (void)startDownlaod
 {
     TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
+    __weak typeof(self) weakSelf = self;
     [manager startWithDownloadModel:_downloadModel progress:^(TYDownloadProgress *progress) {
-        self.progressView.progress = progress.progress;
-        self.progressLabel.text = [self detailTextForDownloadProgress:progress];
+        weakSelf.progressView.progress = progress.progress;
+        weakSelf.progressLabel.text = [weakSelf detailTextForDownloadProgress:progress];
         
     } state:^(TYDownloadState state, NSString *filePath, NSError *error) {
         if (state == TYDownloadStateCompleted) {
-            self.progressView.progress = 1.0;
-            self.progressLabel.text = [NSString stringWithFormat:@"progress %.2f",self.progressView.progress];
+            weakSelf.progressView.progress = 1.0;
+            weakSelf.progressLabel.text = [NSString stringWithFormat:@"progress %.2f",weakSelf.progressView.progress];
         }
         
-        [self.downloadBtn setTitle:[self stateTitleWithState:state] forState:UIControlStateNormal];
+        [weakSelf.downloadBtn setTitle:[weakSelf stateTitleWithState:state] forState:UIControlStateNormal];
         
-        NSLog(@"state %ld error%@ filePath%@",state,error,filePath);
+        //NSLog(@"state %ld error%@ filePath%@",state,error,filePath);
     }];
 }
 - (IBAction)download1:(id)sender {
@@ -152,7 +154,6 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
     
     if (_downloadModel1.state == TYDownloadStateRunning) {
         [manager suspendWithDownloadModel:_downloadModel1];
-        //[manager cancleWithDownloadModel:_downloadModel1];
         return;
     }
     
@@ -162,19 +163,20 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
 - (void)startDownlaod1
 {
     TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
+    __weak typeof(self) weakSelf = self;
     [manager startWithDownloadModel:_downloadModel1 progress:^(TYDownloadProgress *progress) {
-        self.progressView1.progress = progress.progress;
-        self.progressLabel1.text = [self detailTextForDownloadProgress:progress];
+        weakSelf.progressView1.progress = progress.progress;
+        weakSelf.progressLabel1.text = [weakSelf detailTextForDownloadProgress:progress];
         
     } state:^(TYDownloadState state, NSString *filePath, NSError *error) {
         if (state == TYDownloadStateCompleted) {
-            self.progressView1.progress = 1.0;
-            self.progressLabel1.text = [NSString stringWithFormat:@"progress %.2f",self.progressView1.progress];
+            weakSelf.progressView1.progress = 1.0;
+            weakSelf.progressLabel1.text = [NSString stringWithFormat:@"progress %.2f",weakSelf.progressView1.progress];
         }
         
-        [self.downloadBtn1 setTitle:[self stateTitleWithState:state] forState:UIControlStateNormal];
+        [weakSelf.downloadBtn1 setTitle:[weakSelf stateTitleWithState:state] forState:UIControlStateNormal];
         
-        NSLog(@"state %ld error%@ filePath%@",state,error,filePath);
+        //NSLog(@"state %ld error%@ filePath%@",state,error,filePath);
     }];
 }
 
@@ -204,19 +206,20 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
 - (void)startDownlaod2
 {
     TYDownLoadDataManager *manager = [TYDownLoadDataManager manager];
+    __weak typeof(self) weakSelf = self;
     [manager startWithDownloadModel:_downloadModel2 progress:^(TYDownloadProgress *progress) {
-        self.progressView2.progress = progress.progress;
-        self.progressLabel2.text = [self detailTextForDownloadProgress:progress];
+        weakSelf.progressView2.progress = progress.progress;
+        weakSelf.progressLabel2.text = [weakSelf detailTextForDownloadProgress:progress];
         
     } state:^(TYDownloadState state, NSString *filePath, NSError *error) {
         if (state == TYDownloadStateCompleted) {
-            self.progressView2.progress = 1.0;
-            self.progressLabel2.text = [NSString stringWithFormat:@"progress %.2f",self.progressView2.progress];
+            weakSelf.progressView2.progress = 1.0;
+            weakSelf.progressLabel2.text = [NSString stringWithFormat:@"progress %.2f",weakSelf.progressView2.progress];
         }
         
-        [self.downloadBtn2 setTitle:[self stateTitleWithState:state] forState:UIControlStateNormal];
+        [weakSelf.downloadBtn2 setTitle:[weakSelf stateTitleWithState:state] forState:UIControlStateNormal];
         
-        NSLog(@"state %ld error%@ filePath%@",state,error,filePath);
+        //NSLog(@"state %ld error%@ filePath%@",state,error,filePath);
     }];
 }
 
@@ -244,6 +247,9 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
         case TYDownloadStateRunning:
             return @"暂停下载";
             break;
+        case TYDownloadStateFailed:
+            return @"下载失败";
+            break;
         case TYDownloadStateCompleted:
             return @"下载完成，重新下载";
             break;
@@ -251,6 +257,18 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
             return @"开始下载";
             break;
     }
+}
+
+#pragma mark - TYDownloadDelegate
+
+- (void)downloadModel:(TYDownloadModel *)downloadModel updateProgress:(TYDownloadProgress *)progress
+{
+    NSLog(@"delegate progress %.3f",progress.progress);
+}
+
+- (void)downloadModel:(TYDownloadModel *)downloadModel didChangeState:(TYDownloadState)state filePath:(NSString *)filePath error:(NSError *)error
+{
+    NSLog(@"delegate state %ld error%@ filePath%@",state,error,filePath);
 }
 
 - (void)didReceiveMemoryWarning {

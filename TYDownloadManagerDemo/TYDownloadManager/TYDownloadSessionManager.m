@@ -215,18 +215,14 @@
     }
     
     if (downloadModel.state == TYDownloadStateReadying) {
-        if (downloadModel.stateBlock) {
-            downloadModel.stateBlock(TYDownloadStateReadying,nil,nil);
-        }
+        [self downloadModel:downloadModel didChangeState:TYDownloadStateReadying filePath:nil error:nil];
         return;
     }
 
     // 验证是否存在
     if (downloadModel.task && downloadModel.task.state == NSURLSessionTaskStateRunning) {
         downloadModel.state = TYDownloadStateRunning;
-        if (downloadModel.stateBlock) {
-            downloadModel.stateBlock(TYDownloadStateRunning,nil,nil);
-        }
+        [self downloadModel:downloadModel didChangeState:TYDownloadStateRunning filePath:nil error:nil];
         return;
     }
     
@@ -272,10 +268,8 @@
     
     [downloadModel.task resume];
     
-    if (downloadModel.stateBlock) {
-        downloadModel.state = TYDownloadStateRunning;
-        downloadModel.stateBlock(TYDownloadStateRunning,nil,nil);
-    }
+    downloadModel.state = TYDownloadStateRunning;
+    [self downloadModel:downloadModel didChangeState:TYDownloadStateRunning filePath:nil error:nil];
 }
 
 - (BOOL)isValideResumeData:(NSData *)resumeData
@@ -338,9 +332,7 @@
             [self.waitingDownloadModels removeObject:downloadModel];
         }
         downloadModel.state = TYDownloadStateNone;
-        if (downloadModel.stateBlock) {
-            downloadModel.stateBlock(TYDownloadStateNone,nil,nil);
-        }
+        [self downloadModel:downloadModel didChangeState:TYDownloadStateNone filePath:nil error:nil];
         return;
     }
     if (clearResumeData) {
@@ -380,9 +372,7 @@
                 self.downloadingModelDic[downloadModel.downloadURL] = downloadModel;
             }
             downloadModel.state = TYDownloadStateReadying;
-            if (downloadModel.stateBlock) {
-                downloadModel.stateBlock(TYDownloadStateReadying,nil,nil);
-            }
+            [self downloadModel:downloadModel didChangeState:TYDownloadStateReadying filePath:nil error:nil];
             return NO;
         }
         
@@ -471,6 +461,28 @@
 }
 
 #pragma mark - private
+
+- (void)downloadModel:(TYDownloadModel *)downloadModel didChangeState:(TYDownloadState)state filePath:(NSString *)filePath error:(NSError *)error
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(downloadModel:didChangeState:filePath:error:)]) {
+        [_delegate downloadModel:downloadModel didChangeState:state filePath:filePath error:error];
+    }
+    
+    if (downloadModel.stateBlock) {
+        downloadModel.stateBlock(state,filePath,error);
+    }
+}
+
+- (void)downloadModel:(TYDownloadModel *)downloadModel updateProgress:(TYDownloadProgress *)progress
+{
+    if (_delegate && [_delegate respondsToSelector:@selector(downloadModel:updateProgress:)]) {
+        [_delegate downloadModel:downloadModel updateProgress:progress];
+    }
+    
+    if (downloadModel.progressBlock) {
+        downloadModel.progressBlock(progress);
+    }
+}
 
 - (void)removeDownLoadingModelForURLString:(NSString *)URLString
 {
@@ -596,9 +608,7 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
     downloadModel.progress.remainingTime = remainingTime;
     
     dispatch_async(dispatch_get_main_queue(), ^(){
-        if (downloadModel.progressBlock) {
-            downloadModel.progressBlock(downloadModel.progress);
-        }
+        [self downloadModel:downloadModel updateProgress:downloadModel.progress];
     });
 }
 
@@ -654,29 +664,24 @@ didFinishDownloadingToURL:(NSURL *)location
     [self removeDownLoadingModelForURLString:downloadModel.downloadURL];
     
     if (downloadModel.manualCancle) {
+        // 手动取消，当做暂停
         dispatch_async(dispatch_get_main_queue(), ^(){
             downloadModel.manualCancle = NO;
             downloadModel.state = TYDownloadStateSuspended;
-            if (downloadModel.stateBlock) {
-                downloadModel.stateBlock(TYDownloadStateSuspended,nil,nil);
-            }
+            [self downloadModel:downloadModel didChangeState:TYDownloadStateSuspended filePath:nil error:nil];
             [self willResumeNextWithDowloadModel:downloadModel];
         });
     }else if (error){
         // 下载失败
         dispatch_async(dispatch_get_main_queue(), ^(){
             downloadModel.state = TYDownloadStateFailed;
-            if (downloadModel.stateBlock) {
-                downloadModel.stateBlock(TYDownloadStateFailed,nil,error);
-            }
+            [self downloadModel:downloadModel didChangeState:TYDownloadStateFailed filePath:nil error:error];
             [self willResumeNextWithDowloadModel:downloadModel];
         });
     }else {
         dispatch_async(dispatch_get_main_queue(), ^(){
             downloadModel.state = TYDownloadStateCompleted;
-            if (downloadModel.stateBlock) {
-                downloadModel.stateBlock(TYDownloadStateCompleted,downloadModel.filePath,nil);
-            }
+            [self downloadModel:downloadModel didChangeState:TYDownloadStateCompleted filePath:downloadModel.filePath error:nil];
             [self willResumeNextWithDowloadModel:downloadModel];
         });
     }

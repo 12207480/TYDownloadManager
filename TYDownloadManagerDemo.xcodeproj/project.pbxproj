@@ -27,6 +27,7 @@
 		2B11F7861D178EC900BFA5DF /* DownloadSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadSessionViewController.m; sourceTree = "<group>"; };
 		2B3BEBC71D0EB09C00B6E552 /* TYDownloadSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYDownloadSessionManager.h; sourceTree = "<group>"; };
 		2B3BEBC81D0EB09C00B6E552 /* TYDownloadSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYDownloadSessionManager.m; sourceTree = "<group>"; };
+		2BEBFF231D1CC7CC00D6554A /* TYDownloadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYDownloadDelegate.h; sourceTree = "<group>"; };
 		2BF9E9F21D0D50D200FCD6CA /* TYDownloadManagerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TYDownloadManagerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BF9E9F61D0D50D200FCD6CA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2BF9E9F81D0D50D200FCD6CA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -104,6 +105,7 @@
 				2BF9EA111D0D579600FCD6CA /* TYDownLoadDataManager.m */,
 				2B3BEBC71D0EB09C00B6E552 /* TYDownloadSessionManager.h */,
 				2B3BEBC81D0EB09C00B6E552 /* TYDownloadSessionManager.m */,
+				2BEBFF231D1CC7CC00D6554A /* TYDownloadDelegate.h */,
 				2BF9EA131D0D583F00FCD6CA /* TYDownLoadModel.h */,
 				2BF9EA141D0D583F00FCD6CA /* TYDownLoadModel.m */,
 				2BF9EA161D0D588C00FCD6CA /* TYDownloadUtility.h */,
