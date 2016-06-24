@@ -59,7 +59,7 @@
 // 获取正在下载模型
 - (TYDownloadModel *)downLoadingModelForURLString:(NSString *)URLString;
 
-// 获取下载模型的进度
+// 获取本地下载模型的进度 
 - (TYDownloadProgress *)progessWithDownloadModel:(TYDownloadModel *)downloadModel;
 
 // 是否已经下载
