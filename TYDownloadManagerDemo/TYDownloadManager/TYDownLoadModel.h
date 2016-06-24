@@ -1,5 +1,5 @@
 //
-//  TYDownLoadModel.h
+//  TYDownloadModel.h
 //  TYDownloadManagerDemo
 //
 //  Created by tany on 16/6/1.
@@ -9,27 +9,27 @@
 #import <Foundation/Foundation.h>
 
 // 下载状态
-typedef NS_ENUM(NSUInteger, TYDownLoadState) {
-    TYDownLoadStateNone,        // 未下载
-    TYDownLoadStateReadying,    // 等待下载
-    TYDownLoadStateRunning,     // 正在下载
-    TYDownLoadStateSuspended,   // 下载暂停
-    TYDownLoadStateCompleted,   // 下载完成
-    TYDownLoadStateFailed       // 下载失败
+typedef NS_ENUM(NSUInteger, TYDownloadState) {
+    TYDownloadStateNone,        // 未下载
+    TYDownloadStateReadying,    // 等待下载
+    TYDownloadStateRunning,     // 正在下载
+    TYDownloadStateSuspended,   // 下载暂停
+    TYDownloadStateCompleted,   // 下载完成
+    TYDownloadStateFailed       // 下载失败
 };
 
 @class TYDownloadProgress;
-@class TYDownLoadModel;
+@class TYDownloadModel;
 
 // 进度更新block
 typedef void (^TYDownloadProgressBlock)(TYDownloadProgress *progress);
 // 状态更新block
-typedef void (^TYDownloadStateBlock)(TYDownLoadState state,NSString *filePath, NSError *error);
+typedef void (^TYDownloadStateBlock)(TYDownloadState state,NSString *filePath, NSError *error);
 
 /**
  *  下载模型
  */
-@interface TYDownLoadModel : NSObject
+@interface TYDownloadModel : NSObject
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>  download info
 // 下载地址
@@ -41,7 +41,7 @@ typedef void (^TYDownloadStateBlock)(TYDownLoadState state,NSString *filePath, N
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>  task info
 // 下载状态
-@property (nonatomic, assign, readonly) TYDownLoadState state;
+@property (nonatomic, assign, readonly) TYDownloadState state;
 // 下载任务
 @property (nonatomic, strong, readonly) NSURLSessionTask *task;
 // 文件流

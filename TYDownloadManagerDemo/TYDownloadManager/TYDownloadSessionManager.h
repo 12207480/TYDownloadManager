@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TYDownLoadModel.h"
+#import "TYDownloadModel.h"
 
 /**
  *  下载管理类 使用NSURLSessionDataTask
@@ -46,36 +46,36 @@
 - (void)cancleAllBackgroundSessionTasks;
 
 // 开始下载
-- (TYDownLoadModel *)startDownloadURLString:(NSString *)URLString toDestinationPath:(NSString *)destinationPath progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state;
+- (TYDownloadModel *)startDownloadURLString:(NSString *)URLString toDestinationPath:(NSString *)destinationPath progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state;
 
 // 开始下载
-- (void)startWithDownloadModel:(TYDownLoadModel *)downloadModel;
+- (void)startWithDownloadModel:(TYDownloadModel *)downloadModel;
 
 // 开始下载
-- (void)startWithDownloadModel:(TYDownLoadModel *)downloadModel progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state;
+- (void)startWithDownloadModel:(TYDownloadModel *)downloadModel progress:(TYDownloadProgressBlock)progress state:(TYDownloadStateBlock)state;
 
 // 恢复下载（除非确定对这个model进行了suspend，否则使用start）
-- (void)resumeWithDownloadModel:(TYDownLoadModel *)downloadModel;
+- (void)resumeWithDownloadModel:(TYDownloadModel *)downloadModel;
 
 // 暂停下载
-- (void)suspendWithDownloadModel:(TYDownLoadModel *)downloadModel;
+- (void)suspendWithDownloadModel:(TYDownloadModel *)downloadModel;
 
 // 取消下载
-- (void)cancleWithDownloadModel:(TYDownLoadModel *)downloadModel;
+- (void)cancleWithDownloadModel:(TYDownloadModel *)downloadModel;
 
 // 删除下载
-- (void)deleteFileWithDownloadModel:(TYDownLoadModel *)downloadModel;
+- (void)deleteFileWithDownloadModel:(TYDownloadModel *)downloadModel;
 
 // 删除下载
 - (void)deleteAllFileWithDownloadDirectory:(NSString *)downloadDirectory;
 
 // 获取正在下载模型
-- (TYDownLoadModel *)downLoadingModelForURLString:(NSString *)URLString;
+- (TYDownloadModel *)downLoadingModelForURLString:(NSString *)URLString;
 
 // 获取后台运行task
-- (NSURLSessionDownloadTask *)backgroundSessionTasksWithDownloadModel:(TYDownLoadModel *)downloadModel;
+- (NSURLSessionDownloadTask *)backgroundSessionTasksWithDownloadModel:(TYDownloadModel *)downloadModel;
 
 // 是否已经下载
-- (BOOL)isDownloadCompletedWithDownloadModel:(TYDownLoadModel *)downloadModel;
+- (BOOL)isDownloadCompletedWithDownloadModel:(TYDownloadModel *)downloadModel;
 
 @end

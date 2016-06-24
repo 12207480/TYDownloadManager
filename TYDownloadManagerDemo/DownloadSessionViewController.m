@@ -7,7 +7,6 @@
 //
 
 #import "DownloadSessionViewController.h"
-//#import "TYDownLoadDataManager.h"
 #import "TYDownLoadUtility.h"
 #import "TYDownloadSessionManager.h"
 #import <MediaPlayer/MediaPlayer.h>
@@ -26,9 +25,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *downloadBtn2;
 @property (weak, nonatomic) IBOutlet UILabel *progressLabel2;
 
-@property (nonatomic,strong) TYDownLoadModel *downloadModel;
-@property (nonatomic,strong) TYDownLoadModel *downloadModel1;
-@property (nonatomic,strong) TYDownLoadModel *downloadModel2;
+@property (nonatomic,strong) TYDownloadModel *downloadModel;
+@property (nonatomic,strong) TYDownloadModel *downloadModel1;
+@property (nonatomic,strong) TYDownloadModel *downloadModel2;
 
 //播放器视图控制器
 @property (nonatomic,strong) MPMoviePlayerViewController *moviePlayerViewController;
@@ -57,7 +56,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         [self startDownlaod];
         return;
     }
-    TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl];
+    TYDownloadModel *model = [[TYDownloadModel alloc]initWithURLString:downloadUrl];
     [self.downloadBtn setTitle:[[TYDownloadSessionManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
     _downloadModel = model;
     
@@ -73,7 +72,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         [self startDownlaod1];
         return;
     }
-    TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl1];
+    TYDownloadModel *model = [[TYDownloadModel alloc]initWithURLString:downloadUrl1];
     [self.downloadBtn1 setTitle:[[TYDownloadSessionManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
     _downloadModel1 = model;
     
@@ -89,7 +88,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         [self startDownlaod2];
         return;
     }
-    TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl2];
+    TYDownloadModel *model = [[TYDownloadModel alloc]initWithURLString:downloadUrl2];
     [self.downloadBtn2 setTitle:[[TYDownloadSessionManager manager] isDownloadCompletedWithDownloadModel:model] ? @"下载完成，重新下载":@"开始" forState:UIControlStateNormal];
     _downloadModel2 = model;
     
@@ -101,7 +100,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
 - (IBAction)download:(id)sender {
     TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
     
-    if (_downloadModel.state == TYDownLoadStateReadying) {
+    if (_downloadModel.state == TYDownloadStateReadying) {
         [manager cancleWithDownloadModel:_downloadModel];
         return;
     }
@@ -110,7 +109,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         [manager deleteFileWithDownloadModel:_downloadModel];
     }
     
-    if (_downloadModel.state == TYDownLoadStateRunning) {
+    if (_downloadModel.state == TYDownloadStateRunning) {
         [manager suspendWithDownloadModel:_downloadModel];
         return;
     }
@@ -124,8 +123,8 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         self.progressView.progress = progress.progress;
         self.progressLabel.text = [self detailTextForDownloadProgress:progress];
         
-    } state:^(TYDownLoadState state, NSString *filePath, NSError *error) {
-        if (state == TYDownLoadStateCompleted) {
+    } state:^(TYDownloadState state, NSString *filePath, NSError *error) {
+        if (state == TYDownloadStateCompleted) {
             self.progressView.progress = 1.0;
             self.progressLabel.text = [NSString stringWithFormat:@"progress %.2f",self.progressView.progress];
         }
@@ -139,7 +138,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
 - (IBAction)download1:(id)sender {
     TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
     
-    if (_downloadModel1.state == TYDownLoadStateReadying) {
+    if (_downloadModel1.state == TYDownloadStateReadying) {
         [manager cancleWithDownloadModel:_downloadModel1];
         return;
     }
@@ -148,7 +147,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         [manager deleteFileWithDownloadModel:_downloadModel1];
     }
     
-    if (_downloadModel1.state == TYDownLoadStateRunning) {
+    if (_downloadModel1.state == TYDownloadStateRunning) {
         [manager suspendWithDownloadModel:_downloadModel1];
         return;
     }
@@ -163,8 +162,8 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         self.progressView1.progress = progress.progress;
         self.progressLabel1.text = [self detailTextForDownloadProgress:progress];
         
-    } state:^(TYDownLoadState state, NSString *filePath, NSError *error) {
-        if (state == TYDownLoadStateCompleted) {
+    } state:^(TYDownloadState state, NSString *filePath, NSError *error) {
+        if (state == TYDownloadStateCompleted) {
             self.progressView1.progress = 1.0;
             self.progressLabel1.text = [NSString stringWithFormat:@"progress %.2f",self.progressView1.progress];
         }
@@ -178,7 +177,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
 - (IBAction)download2:(id)sender {
     TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
     
-    if (_downloadModel2.state == TYDownLoadStateReadying) {
+    if (_downloadModel2.state == TYDownloadStateReadying) {
         [manager cancleWithDownloadModel:_downloadModel2];
         return;
     }
@@ -190,7 +189,7 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         return;
     }
     
-    if (_downloadModel2.state == TYDownLoadStateRunning) {
+    if (_downloadModel2.state == TYDownloadStateRunning) {
         [manager suspendWithDownloadModel:_downloadModel2];
         return;
     }
@@ -204,8 +203,8 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
         self.progressView2.progress = progress.progress;
         self.progressLabel2.text = [self detailTextForDownloadProgress:progress];
         
-    } state:^(TYDownLoadState state, NSString *filePath, NSError *error) {
-        if (state == TYDownLoadStateCompleted) {
+    } state:^(TYDownloadState state, NSString *filePath, NSError *error) {
+        if (state == TYDownloadStateCompleted) {
             self.progressView2.progress = 1.0;
             self.progressLabel2.text = [NSString stringWithFormat:@"progress %.2f",self.progressView2.progress];
         }
@@ -232,16 +231,16 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
     return detailLabelText;
 }
 
-- (NSString *)stateTitleWithState:(TYDownLoadState)state
+- (NSString *)stateTitleWithState:(TYDownloadState)state
 {
     switch (state) {
-        case TYDownLoadStateReadying:
+        case TYDownloadStateReadying:
             return @"等待下载";
             break;
-        case TYDownLoadStateRunning:
+        case TYDownloadStateRunning:
             return @"暂停下载";
             break;
-        case TYDownLoadStateCompleted:
+        case TYDownloadStateCompleted:
             return @"下载完成，重新下载";
             break;
         default:

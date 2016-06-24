@@ -20,7 +20,7 @@
     // Override point for customization after application launch.
     // session在后台下载完成调用
     [[TYDownloadSessionManager manager] setBackgroundSessionDownloadCompleteBlock:^NSString *(NSString *downloadUrl) {
-        TYDownLoadModel *model = [[TYDownLoadModel alloc]initWithURLString:downloadUrl];
+        TYDownloadModel *model = [[TYDownloadModel alloc]initWithURLString:downloadUrl];
         return model.filePath;
     }];
     [[TYDownloadSessionManager manager] configureBackroundSession];

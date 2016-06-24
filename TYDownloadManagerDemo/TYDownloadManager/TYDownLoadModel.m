@@ -1,12 +1,12 @@
 //
-//  TYDownLoadModel.m
+//  TYDownloadModel.m
 //  TYDownloadManagerDemo
 //
 //  Created by tany on 16/6/1.
 //  Copyright © 2016年 tany. All rights reserved.
 //
 
-#import "TYDownLoadModel.h"
+#import "TYDownloadModel.h"
 
 @interface TYDownloadProgress ()
 // 续传大小
@@ -26,7 +26,7 @@
 
 @end
 
-@interface TYDownLoadModel ()
+@interface TYDownloadModel ()
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>  download info
 // 下载地址
@@ -38,7 +38,7 @@
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>  task info
 // 下载状态
-@property (nonatomic, assign) TYDownLoadState state;
+@property (nonatomic, assign) TYDownloadState state;
 // 下载任务
 @property (nonatomic, strong) NSURLSessionTask *task;
 // 文件流
@@ -54,7 +54,7 @@
 
 @end
 
-@implementation TYDownLoadModel
+@implementation TYDownloadModel
 
 - (instancetype)init
 {
