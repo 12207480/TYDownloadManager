@@ -258,7 +258,7 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/14421428013311
 
 #pragma mark - TYDownloadDelegate
 
-- (void)downloadModel:(TYDownloadModel *)downloadModel updateProgress:(TYDownloadProgress *)progress
+- (void)downloadModel:(TYDownloadModel *)downloadModel didUpdateProgress:(TYDownloadProgress *)progress
 {
      NSLog(@"delegate progress %.3f",progress.progress);
 }

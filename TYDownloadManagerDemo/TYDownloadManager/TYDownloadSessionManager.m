@@ -475,8 +475,8 @@
 
 - (void)downloadModel:(TYDownloadModel *)downloadModel updateProgress:(TYDownloadProgress *)progress
 {
-    if (_delegate && [_delegate respondsToSelector:@selector(downloadModel:updateProgress:)]) {
-        [_delegate downloadModel:downloadModel updateProgress:progress];
+    if (_delegate && [_delegate respondsToSelector:@selector(downloadModel:didUpdateProgress:)]) {
+        [_delegate downloadModel:downloadModel didUpdateProgress:progress];
     }
     
     if (downloadModel.progressBlock) {
