@@ -584,18 +584,18 @@
             [self downloadModel:downloadModel didChangeState:TYDownloadStateSuspended filePath:nil error:nil];
             [self willResumeNextWithDowloadModel:downloadModel];
         });
-    }else if ([self isDownloadCompletedWithDownloadModel:downloadModel]) {
-        // 下载完成
-        dispatch_async(dispatch_get_main_queue(), ^(){
-            downloadModel.state = TYDownloadStateCompleted;
-            [self downloadModel:downloadModel didChangeState:TYDownloadStateCompleted filePath:downloadModel.filePath error:nil];
-            [self willResumeNextWithDowloadModel:downloadModel];
-        });
     }else if (error){
         // 下载失败
         dispatch_async(dispatch_get_main_queue(), ^(){
             downloadModel.state = TYDownloadStateFailed;
             [self downloadModel:downloadModel didChangeState:TYDownloadStateFailed filePath:nil error:error];
+            [self willResumeNextWithDowloadModel:downloadModel];
+        });
+    }else if ([self isDownloadCompletedWithDownloadModel:downloadModel]) {
+        // 下载完成
+        dispatch_async(dispatch_get_main_queue(), ^(){
+            downloadModel.state = TYDownloadStateCompleted;
+            [self downloadModel:downloadModel didChangeState:TYDownloadStateCompleted filePath:downloadModel.filePath error:nil];
             [self willResumeNextWithDowloadModel:downloadModel];
         });
     }else {
