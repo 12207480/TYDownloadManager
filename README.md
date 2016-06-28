@@ -108,6 +108,7 @@ typedef void (^TYDownloadStateBlock)(TYDownloadState state,NSString *filePath, N
 
 ### Demo
 ```objc
+// 下载可以使用 manager的代理 或者 downloadModel的block
 
 - (IBAction)download:(id)sender {
     TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
@@ -147,6 +148,9 @@ typedef void (^TYDownloadStateBlock)(TYDownloadState state,NSString *filePath, N
         //NSLog(@"state %ld error%@ filePath%@",state,error,filePath);
     }];
 }
+
+// [TYDownloadSessionManager manager].delegate = self;
+// [TYDownLoadDataManager manager].delegate = self;
 
 #pragma mark - TYDownloadDelegate
 
