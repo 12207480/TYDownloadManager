@@ -1,6 +1,6 @@
 # TYDownloadManager
 Download file manager wrapped NSURLSessionDataTask and NSURLSessionDownloadTask,provide progress update and status change.<br>
-下载管理类 支持多文件断点下载和后台下载 封装了NSURLSessionDataTask和NSURLSessionDownloadTask，提供进度更新和状态改变bloc 和 delegate。
+下载管理类(TYDownLoadDataManager和TYDownloadSessionManager) 支持多文件断点下载和后台下载 封装了NSURLSessionDataTask和NSURLSessionDownloadTask，提供进度更新和状态改变bloc 和 delegate。
 
 ## Requirements
 * Xcode 6 or higher
@@ -146,6 +146,18 @@ typedef void (^TYDownloadStateBlock)(TYDownloadState state,NSString *filePath, N
         
         //NSLog(@"state %ld error%@ filePath%@",state,error,filePath);
     }];
+}
+
+#pragma mark - TYDownloadDelegate
+
+- (void)downloadModel:(TYDownloadModel *)downloadModel didUpdateProgress:(TYDownloadProgress *)progress
+{
+     NSLog(@"delegate progress %.3f",progress.progress);
+}
+
+- (void)downloadModel:(TYDownloadModel *)downloadModel didChangeState:(TYDownloadState)state filePath:(NSString *)filePath error:(NSError *)error
+{
+    NSLog(@"delegate state %ld error%@ filePath%@",state,error,filePath);
 }
 
 ```
