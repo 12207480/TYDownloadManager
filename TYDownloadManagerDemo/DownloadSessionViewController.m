@@ -33,8 +33,8 @@
 @property (nonatomic,strong) MPMoviePlayerViewController *moviePlayerViewController;
 @end
 
-static NSString * const downloadUrl = @"http://baobab.wdjcdn.com/145076769089714.mp4";
-static NSString * const downloadUrl1 = @"http://baobab.wdjcdn.com/1458625865688ONE.mp4";
+static NSString * const downloadUrl = @"http://baobab.wdjcdn.com/1455888619273255747085_x264.mp4";
+static NSString * const downloadUrl1 = @"http://baobab.wdjcdn.com/1456317490140jiyiyuetai_x264.mp4";
 static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1442142801331138639111.mp4";
 
 @implementation DownloadSessionViewController
