@@ -546,13 +546,12 @@
     downloadModel.progress.totalBytesWritten += downloadModel.progress.bytesWritten;
     downloadModel.progress.progress  = MIN(1.0, 1.0*downloadModel.progress.totalBytesWritten/downloadModel.progress.totalBytesExpectedToWrite);
     
-    
+    // 时间
     NSTimeInterval downloadTime = -1 * [downloadModel.downloadDate timeIntervalSinceNow];
     downloadModel.progress.speed = (downloadModel.progress.totalBytesWritten - downloadModel.progress.resumeBytesWritten) / downloadTime;
     
-    
     int64_t remainingContentLength = downloadModel.progress.totalBytesExpectedToWrite - downloadModel.progress.totalBytesWritten;
-    downloadModel.progress.remainingTime = (int)(remainingContentLength / downloadModel.progress.speed);
+    downloadModel.progress.remainingTime = ceilf(remainingContentLength / downloadModel.progress.speed);
     
     dispatch_async(dispatch_get_main_queue(), ^(){
         [self downloadModel:downloadModel updateProgress:downloadModel.progress];

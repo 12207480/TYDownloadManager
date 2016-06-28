@@ -504,6 +504,7 @@
     return nil;
 }
 
+// resumeData 路径
 - (NSString *)resumeDataPathWithDownloadURL:(NSString *)downloadURL
 {
     NSString *resumeFileName = [[self class] md5:downloadURL];
@@ -598,7 +599,7 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
     float speed = (totalBytesWritten - resumeBytesWritten) / downloadTime;
     
     int64_t remainingContentLength = totalBytesExpectedToWrite - totalBytesWritten;
-    int remainingTime = (int)(remainingContentLength / speed);
+    int remainingTime = ceilf(remainingContentLength / speed);
     
     downloadModel.progress.bytesWritten = bytesWritten;
     downloadModel.progress.totalBytesWritten = totalBytesWritten;
