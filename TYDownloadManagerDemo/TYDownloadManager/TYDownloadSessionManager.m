@@ -65,7 +65,7 @@
 // >>>>>>>>>>>>>>>>>>>>>>>>>>  session info
 // 下载seesion会话
 @property (nonatomic, strong) NSURLSession *session;
-// 下载模型字典 key = url
+// 下载模型字典 key = url, value = model
 @property (nonatomic, strong) NSMutableDictionary *downloadingModelDic;
 // 下载中的模型
 @property (nonatomic, strong) NSMutableArray *waitingDownloadModels;

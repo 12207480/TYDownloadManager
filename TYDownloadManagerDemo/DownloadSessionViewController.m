@@ -227,12 +227,11 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
                                  [TYDownloadUtility calculateFileSizeInUnit:(unsigned long long)progress.totalBytesExpectedToWrite],
                                  [TYDownloadUtility calculateUnit:(unsigned long long)progress.totalBytesExpectedToWrite]];
     
-    NSMutableString *detailLabelText = [NSMutableString stringWithFormat:@"File Size: %@\nDownloaded: %.2f %@ (%.2f%%)\nSpeed: %.2f %@/sec\n",fileSizeInUnits,
+    NSMutableString *detailLabelText = [NSMutableString stringWithFormat:@"File Size: %@\nDownloaded: %.2f %@ (%.2f%%)\nSpeed: %.2f %@/sec\nLeftTime: %dsec",fileSizeInUnits,
                                         [TYDownloadUtility calculateFileSizeInUnit:(unsigned long long)progress.totalBytesWritten],
                                         [TYDownloadUtility calculateUnit:(unsigned long long)progress.totalBytesWritten],progress.progress*100,
                                         [TYDownloadUtility calculateFileSizeInUnit:(unsigned long long) progress.speed],
-                                        [TYDownloadUtility calculateUnit:(unsigned long long)progress.speed]
-                                        ];
+                                        [TYDownloadUtility calculateUnit:(unsigned long long)progress.speed],progress.remainingTime];
     return detailLabelText;
 }
 
