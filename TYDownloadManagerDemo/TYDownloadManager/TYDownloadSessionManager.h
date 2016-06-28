@@ -11,7 +11,7 @@
 #import "TYDownloadDelegate.h"
 
 /**
- *  下载管理类 使用NSURLSessionDataTask
+ *  下载管理类 使用NSURLSessionDownloadTask
  */
 @interface TYDownloadSessionManager : NSObject<NSURLSessionDownloadDelegate>
 
