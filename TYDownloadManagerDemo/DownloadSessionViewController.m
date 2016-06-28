@@ -42,8 +42,9 @@ static NSString * const downloadUrl2 = @"http://down.233.com/2014a/cy/caijingfag
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    [TYDownloadSessionManager manager].delegate = self;
     self.title = @"DownloadSessionViewControllerDemo";
+    // 下载可以使用 manager的代理 或者 downloadModel的block
+    [TYDownloadSessionManager manager].delegate = self;
     [self refreshDowloadInfo];
     [self refreshDowloadInfo1];
     [self refreshDowloadInfo2];

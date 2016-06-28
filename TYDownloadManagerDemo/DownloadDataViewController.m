@@ -43,6 +43,8 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/1456459181808h
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.title = @"DownloadDataViewControllerDemo";
+    
+    // 下载可以使用 manager的代理 或者 downloadModel的block
     [TYDownLoadDataManager manager].delegate = self;
     [self refreshDowloadInfo];
     [self refreshDowloadInfo1];
