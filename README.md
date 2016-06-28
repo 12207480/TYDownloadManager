@@ -106,3 +106,51 @@ typedef void (^TYDownloadStateBlock)(TYDownloadState state,NSString *filePath, N
 
 ```
 
+### Demo
+```objc
+
+- (IBAction)download:(id)sender {
+    TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
+    
+    if (_downloadModel.state == TYDownloadStateReadying) {
+        [manager cancleWithDownloadModel:_downloadModel];
+        return;
+    }
+    
+    if ([manager isDownloadCompletedWithDownloadModel:_downloadModel]) {
+        [manager deleteFileWithDownloadModel:_downloadModel];
+    }
+    
+    if (_downloadModel.state == TYDownloadStateRunning) {
+        [manager suspendWithDownloadModel:_downloadModel];
+        return;
+    }
+    [self startDownlaod];
+}
+
+- (void)startDownlaod
+{
+    TYDownloadSessionManager *manager = [TYDownloadSessionManager manager];
+    __weak typeof(self) weakSelf = self;
+    [manager startWithDownloadModel:_downloadModel progress:^(TYDownloadProgress *progress) {
+        weakSelf.progressView.progress = progress.progress;
+        weakSelf.progressLabel.text = [weakSelf detailTextForDownloadProgress:progress];
+        
+    } state:^(TYDownloadState state, NSString *filePath, NSError *error) {
+        if (state == TYDownloadStateCompleted) {
+            weakSelf.progressView.progress = 1.0;
+            weakSelf.progressLabel.text = [NSString stringWithFormat:@"progress %.2f",weakSelf.progressView.progress];
+        }
+        
+        [weakSelf.downloadBtn setTitle:[weakSelf stateTitleWithState:state] forState:UIControlStateNormal];
+        
+        //NSLog(@"state %ld error%@ filePath%@",state,error,filePath);
+    }];
+}
+
+```
+
+### Contact
+如果你发现bug，please pull reqeust me <br>
+如果你有更好的改进，please pull reqeust me <br>
+如果你有更好的想法或者建议可以联系我，Email:122074809@qq.com
