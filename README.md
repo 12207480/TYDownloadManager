@@ -78,18 +78,6 @@ Download file manager wrapped NSURLSessionDataTask and NSURLSessionDownloadTask,
 
 ```
 
-### Block
-
-```objc
-
-// TYDownloadModel block
-// 进度更新block
-typedef void (^TYDownloadProgressBlock)(TYDownloadProgress *progress);
-// 状态更新block
-typedef void (^TYDownloadStateBlock)(TYDownloadState state,NSString *filePath, NSError *error);
-
-```
-
 ```objc
 /**
  *  下载进度
@@ -112,6 +100,18 @@ typedef void (^TYDownloadStateBlock)(TYDownloadState state,NSString *filePath, N
 @property (nonatomic, assign, readonly) int remainingTime;
 
 @end
+```
+
+### Block
+
+```objc
+
+// TYDownloadModel block
+// 进度更新block
+typedef void (^TYDownloadProgressBlock)(TYDownloadProgress *progress);
+// 状态更新block
+typedef void (^TYDownloadStateBlock)(TYDownloadState state,NSString *filePath, NSError *error);
+
 ```
 
 ### Delegate
