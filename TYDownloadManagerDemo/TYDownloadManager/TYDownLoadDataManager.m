@@ -20,7 +20,7 @@
 @property (nonatomic, strong) NSURLSessionDataTask *task;
 // 文件流
 @property (nonatomic, strong) NSOutputStream *stream;
-// 下载文件路径,下载完成后有值,把它移动到你的目录
+// 下载文件路径
 @property (nonatomic, strong) NSString *filePath;
 // 下载时间
 @property (nonatomic, strong) NSDate *downloadDate;
@@ -599,6 +599,7 @@
             [self willResumeNextWithDowloadModel:downloadModel];
         });
     }else {
+        // 下载完成
          dispatch_async(dispatch_get_main_queue(), ^(){
              downloadModel.state = TYDownloadStateCompleted;
              [self downloadModel:downloadModel didChangeState:TYDownloadStateCompleted filePath:downloadModel.filePath error:nil];

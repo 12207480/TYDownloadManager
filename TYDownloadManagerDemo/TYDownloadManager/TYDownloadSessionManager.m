@@ -650,17 +650,21 @@ didFinishDownloadingToURL:(NSURL *)location
         return;
     }
 
+    NSData *resumeData = nil;
     if (error) {
-        downloadModel.progress.resumeBytesWritten = 0;
-        downloadModel.resumeData = [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
+        resumeData = [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
+    }
+    // 缓存resumeData
+    if (resumeData) {
+        downloadModel.resumeData = resumeData;
         [self createDirectory:_downloadDirectory];
         [downloadModel.resumeData writeToFile:[self resumeDataPathWithDownloadURL:downloadModel.downloadURL] atomically:YES];
-    } else {
+    }else {
         downloadModel.resumeData = nil;
-        downloadModel.progress.resumeBytesWritten = 0;
         [self deleteFileIfExist:[self resumeDataPathWithDownloadURL:downloadModel.downloadURL]];
     }
     
+    downloadModel.progress.resumeBytesWritten = 0;
     downloadModel.task = nil;
     [self removeDownLoadingModelForURLString:downloadModel.downloadURL];
     
@@ -680,6 +684,7 @@ didFinishDownloadingToURL:(NSURL *)location
             [self willResumeNextWithDowloadModel:downloadModel];
         });
     }else {
+        // 下载完成
         dispatch_async(dispatch_get_main_queue(), ^(){
             downloadModel.state = TYDownloadStateCompleted;
             [self downloadModel:downloadModel didChangeState:TYDownloadStateCompleted filePath:downloadModel.filePath error:nil];
