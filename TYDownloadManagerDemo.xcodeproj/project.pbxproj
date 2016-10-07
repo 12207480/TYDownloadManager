@@ -18,6 +18,7 @@
 		2BF9EA151D0D583F00FCD6CA /* TYDownLoadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF9EA141D0D583F00FCD6CA /* TYDownLoadModel.m */; };
 		2BF9EA181D0D588C00FCD6CA /* TYDownloadUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BF9EA171D0D588C00FCD6CA /* TYDownloadUtility.m */; };
 		2BF9EA1A1D0D5AB900FCD6CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BF9EA191D0D5AB900FCD6CA /* Main.storyboard */; };
+		B0236B691DA7A0E300285DFC /* NSURLSession+TYCorrectedResumeData.m in Sources */ = {isa = PBXBuildFile; fileRef = B0236B681DA7A0E300285DFC /* NSURLSession+TYCorrectedResumeData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,8 @@
 		2BF9EA161D0D588C00FCD6CA /* TYDownloadUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYDownloadUtility.h; sourceTree = "<group>"; };
 		2BF9EA171D0D588C00FCD6CA /* TYDownloadUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYDownloadUtility.m; sourceTree = "<group>"; };
 		2BF9EA191D0D5AB900FCD6CA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B0236B671DA7A0E300285DFC /* NSURLSession+TYCorrectedResumeData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSession+TYCorrectedResumeData.h"; sourceTree = "<group>"; };
+		B0236B681DA7A0E300285DFC /* NSURLSession+TYCorrectedResumeData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSession+TYCorrectedResumeData.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +113,8 @@
 				2BF9EA141D0D583F00FCD6CA /* TYDownLoadModel.m */,
 				2BF9EA161D0D588C00FCD6CA /* TYDownloadUtility.h */,
 				2BF9EA171D0D588C00FCD6CA /* TYDownloadUtility.m */,
+				B0236B671DA7A0E300285DFC /* NSURLSession+TYCorrectedResumeData.h */,
+				B0236B681DA7A0E300285DFC /* NSURLSession+TYCorrectedResumeData.m */,
 			);
 			path = TYDownloadManager;
 			sourceTree = "<group>";
@@ -190,6 +195,7 @@
 				2BF9E9FA1D0D50D200FCD6CA /* AppDelegate.m in Sources */,
 				2BF9EA181D0D588C00FCD6CA /* TYDownloadUtility.m in Sources */,
 				2BF9EA151D0D583F00FCD6CA /* TYDownLoadModel.m in Sources */,
+				B0236B691DA7A0E300285DFC /* NSURLSession+TYCorrectedResumeData.m in Sources */,
 				2B11F7881D178EC900BFA5DF /* DownloadSessionViewController.m in Sources */,
 				2B11F7871D178EC900BFA5DF /* DownloadDataViewController.m in Sources */,
 				2BF9E9F71D0D50D200FCD6CA /* main.m in Sources */,

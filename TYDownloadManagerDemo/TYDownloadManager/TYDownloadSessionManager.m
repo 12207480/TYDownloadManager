@@ -9,6 +9,7 @@
 #import "TYDownloadSessionManager.h"
 #import <CommonCrypto/CommonDigest.h>
 #import <UIKit/UIKit.h>
+#import "NSURLSession+TYCorrectedResumeData.h"
 
 /**
  *  下载模型
@@ -249,7 +250,7 @@
         NSData *resumeData = [self resumeDataFromFileWithDownloadModel:downloadModel];
         
         if ([self isValideResumeData:resumeData]) {
-            downloadModel.task = [self.session downloadTaskWithResumeData:resumeData];
+            downloadModel.task = [self.session downloadTaskWithCorrectResumeData:resumeData];
         }else {
             NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:downloadModel.downloadURL]];
             downloadModel.task = [self.session downloadTaskWithRequest:request];
