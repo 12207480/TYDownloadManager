@@ -195,4 +195,3 @@ typedef void (^TYDownloadStateBlock)(TYDownloadState state,NSString *filePath, N
 ### Contact
 如果你发现bug，please pull reqeust me <br>
 如果你有更好的改进，please pull reqeust me <br>
-如果你有更好的想法或者建议可以联系我，Email:122074809@qq.com
