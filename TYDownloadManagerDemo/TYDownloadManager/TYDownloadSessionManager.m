@@ -78,6 +78,7 @@
 @end
 
 #define IS_IOS8ORLATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8)
+#define IS_IOS10ORLATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10)
 
 @implementation TYDownloadSessionManager
 
@@ -250,7 +251,11 @@
         NSData *resumeData = [self resumeDataFromFileWithDownloadModel:downloadModel];
         
         if ([self isValideResumeData:resumeData]) {
-            downloadModel.task = [self.session downloadTaskWithCorrectResumeData:resumeData];
+            if (IS_IOS10ORLATER) {
+                downloadModel.task = [self.session downloadTaskWithCorrectResumeData:resumeData];
+            }else {
+                 downloadModel.task = [self.session downloadTaskWithResumeData:resumeData];
+            }
         }else {
             NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:downloadModel.downloadURL]];
             downloadModel.task = [self.session downloadTaskWithRequest:request];
