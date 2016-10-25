@@ -46,6 +46,15 @@
 // 配置后台session
 - (void)configureBackroundSession;
 
+// 获取正在下载模型
+- (TYDownloadModel *)downLoadingModelForURLString:(NSString *)URLString;
+
+// 获取后台运行task
+- (NSURLSessionDownloadTask *)backgroundSessionTasksWithDownloadModel:(TYDownloadModel *)downloadModel;
+
+// 是否已经下载
+- (BOOL)isDownloadCompletedWithDownloadModel:(TYDownloadModel *)downloadModel;
+
 // 取消所有完成或失败后台task
 - (void)cancleAllBackgroundSessionTasks;
 
@@ -72,14 +81,5 @@
 
 // 删除下载
 - (void)deleteAllFileWithDownloadDirectory:(NSString *)downloadDirectory;
-
-// 获取正在下载模型
-- (TYDownloadModel *)downLoadingModelForURLString:(NSString *)URLString;
-
-// 获取后台运行task
-- (NSURLSessionDownloadTask *)backgroundSessionTasksWithDownloadModel:(TYDownloadModel *)downloadModel;
-
-// 是否已经下载
-- (BOOL)isDownloadCompletedWithDownloadModel:(TYDownloadModel *)downloadModel;
 
 @end
