@@ -127,8 +127,6 @@
         if (_backgroundConfigure) {
             if (IS_IOS8ORLATER) {
                 NSURLSessionConfiguration *configure = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:_backgroundConfigure];
-                configure.discretionary = YES;
-                configure.allowsCellularAccess = NO;
                 _session = [NSURLSession sessionWithConfiguration:configure delegate:self delegateQueue:self.queue];
             }else{
                 _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration backgroundSessionConfiguration:_backgroundConfigure]delegate:self delegateQueue:self.queue];
