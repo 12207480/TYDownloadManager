@@ -151,7 +151,7 @@ static NSString * const downloadUrl2 = @"http://baobab.wdjcdn.com/14421428013311
     }
     
     if (_downloadModel1.state == TYDownloadStateRunning) {
-        [manager suspendWithDownloadModel:_downloadModel1];
+        [manager deleteFileWithDownloadModel:_downloadModel1];
         return;
     }
     

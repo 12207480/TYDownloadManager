@@ -126,7 +126,10 @@
     if (!_session) {
         if (_backgroundConfigure) {
             if (IS_IOS8ORLATER) {
-                _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:_backgroundConfigure]delegate:self delegateQueue:self.queue];
+                NSURLSessionConfiguration *configure = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:_backgroundConfigure];
+                configure.discretionary = YES;
+                configure.allowsCellularAccess = NO;
+                _session = [NSURLSession sessionWithConfiguration:configure delegate:self delegateQueue:self.queue];
             }else{
                 _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration backgroundSessionConfiguration:_backgroundConfigure]delegate:self delegateQueue:self.queue];
             }
@@ -342,7 +345,9 @@
         return;
     }
     if (clearResumeData) {
+        downloadModel.state = TYDownloadStateNone;
         downloadModel.resumeData = nil;
+        [self deleteFileIfExist:[self resumeDataPathWithDownloadURL:downloadModel.downloadURL]];
         [downloadModel.task cancel];
     }else {
         [(NSURLSessionDownloadTask *)downloadModel.task cancelByProducingResumeData:^(NSData *resumeData){
@@ -687,12 +692,22 @@ didFinishDownloadingToURL:(NSURL *)location
             [self willResumeNextWithDowloadModel:downloadModel];
         });
     }else if (error){
-        // 下载失败
-        dispatch_async(dispatch_get_main_queue(), ^(){
-            downloadModel.state = TYDownloadStateFailed;
-            [self downloadModel:downloadModel didChangeState:TYDownloadStateFailed filePath:nil error:error];
-            [self willResumeNextWithDowloadModel:downloadModel];
-        });
+        
+        if (downloadModel.state == TYDownloadStateNone) {
+            // 删除下载
+            dispatch_async(dispatch_get_main_queue(), ^(){
+                downloadModel.state = TYDownloadStateNone;
+                [self downloadModel:downloadModel didChangeState:TYDownloadStateNone filePath:nil error:error];
+                [self willResumeNextWithDowloadModel:downloadModel];
+            });
+        }else {
+            // 下载失败
+            dispatch_async(dispatch_get_main_queue(), ^(){
+                downloadModel.state = TYDownloadStateFailed;
+                [self downloadModel:downloadModel didChangeState:TYDownloadStateFailed filePath:nil error:error];
+                [self willResumeNextWithDowloadModel:downloadModel];
+            });
+        }
     }else {
         // 下载完成
         dispatch_async(dispatch_get_main_queue(), ^(){
