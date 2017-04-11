@@ -125,7 +125,7 @@
 - (NSString *)downloadDirectory
 {
     if (!_downloadDirectory) {
-        _downloadDirectory = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"TYDownlodDataCache"];
+        _downloadDirectory = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"TYDownloadCache"];
         [self createDirectory:_downloadDirectory];
     }
     return _downloadDirectory;
