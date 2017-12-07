@@ -10,12 +10,20 @@
 #import <UIKit/UIKit.h>
 
 #define IS_IOS10ORLATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10)
+#define IS_IOS11ORLATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11)
 
 @implementation NSURLSession (TYCorrectedResumeData)
 
 - (NSURLSessionDownloadTask *)downloadTaskWithCorrectResumeData:(NSData *)resumeData {
     NSString *kResumeCurrentRequest = @"NSURLSessionResumeCurrentRequest";
     NSString *kResumeOriginalRequest = @"NSURLSessionResumeOriginalRequest";
+    
+    if (IS_IOS11ORLATER)
+    {
+        NSString * dataStr = [[NSString alloc]initWithData:resumeData encoding:NSUTF8StringEncoding];
+        NSString * newStr = [self cleanResumeDataWithString:dataStr];
+        resumeData = [newStr dataUsingEncoding:NSUTF8StringEncoding];
+    }
     
     NSData *cData = correctResumeData(resumeData);
     cData = cData?cData:resumeData;
@@ -42,6 +50,21 @@
 }
 
 #pragma mark- private
+
+- (NSString *)cleanResumeDataWithString:(NSString *)dataStr
+{
+    if([dataStr containsString:@"<key>NSURLSessionResumeByteRange</key>"])
+    {
+        NSRange rangeKey  = [dataStr rangeOfString:@"<key>NSURLSessionResumeByteRange</key>"];
+        NSString * headStr = [dataStr substringToIndex:rangeKey.location];
+        NSString * backStr = [dataStr substringFromIndex:rangeKey.location];
+        NSRange rangeValue = [backStr rangeOfString:@"</string>\n\t"];
+        NSString * tailStr = [backStr substringFromIndex:rangeValue.location + rangeValue.length];
+        dataStr = [headStr stringByAppendingString:tailStr];
+    }
+    return dataStr;
+}
+
 
 NSData * correctRequestData(NSData *data) {
     if (!data) {
