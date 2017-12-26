@@ -74,6 +74,12 @@
     if (self = [self init]) {
         _downloadURL = URLString;
         _fileName = filePath.lastPathComponent;
+//          if ([_downloadURL.lastPathComponent containsString:@"?"]) {
+//             NSArray *array = [_downloadURL.lastPathComponent componentsSeparatedByString:@"?"];
+//             _fileName = array.firstObject;
+//         }else {
+//             _fileName = _downloadURL.lastPathComponent;
+//         }
         _downloadDirectory = filePath.stringByDeletingLastPathComponent;
         _filePath = filePath;
     }
@@ -84,6 +90,12 @@
 {
     if (!_fileName) {
         _fileName = _downloadURL.lastPathComponent;
+//          if ([_downloadURL.lastPathComponent containsString:@"?"]) {
+//             NSArray *array = [_downloadURL.lastPathComponent componentsSeparatedByString:@"?"];
+//             _fileName = array.firstObject;
+//         }else {
+//             _fileName = _downloadURL.lastPathComponent;
+//         }
     }
     return _fileName;
 }
