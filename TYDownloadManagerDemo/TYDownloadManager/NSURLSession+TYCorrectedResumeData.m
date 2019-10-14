@@ -11,6 +11,7 @@
 
 #define IS_IOS10ORLATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10)
 #define IS_IOS11ORLATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11)
+#define IS_IOS12ORLATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 12)
 
 @implementation NSURLSession (TYCorrectedResumeData)
 
