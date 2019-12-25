@@ -178,7 +178,7 @@ typedef void (^TYDownloadStateBlock)(TYDownloadState state,NSString *filePath, N
 // [TYDownloadSessionManager manager].delegate = self;
 // [TYDownLoadDataManager manager].delegate = self;
 
-#pragma mark - TYDownloadDelegate
+# pragma mark - TYDownloadDelegate
 
 - (void)downloadModel:(TYDownloadModel *)downloadModel didUpdateProgress:(TYDownloadProgress *)progress
 {
